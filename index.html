@@ -725,6 +725,12 @@
       flex: 1;
       height: 48px;
       max-width: 54px;
+      min-width: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
       background: var(--bg-page);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
@@ -1098,21 +1104,198 @@
       z-index: 9999;
     }
 
+    /* Victory Score & Mistakes Review Styling */
+    .score-ratio-circle {
+      background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+      border: 3px solid var(--primary);
+      border-radius: var(--radius-lg);
+      padding: 16px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      width: 100%;
+    }
+
+    .score-ratio-circle.perfect {
+      background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+      border-color: var(--success);
+    }
+
+    .score-fraction {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1.1;
+    }
+
+    .score-ratio-circle.perfect .score-fraction {
+      color: #065f46;
+    }
+
+    .score-label {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .mistake-review-container {
+      width: 100%;
+      background: var(--bg-page);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-top: 14px;
+      text-align: left;
+    }
+
+    .mistake-header {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #dc2626;
+      margin-bottom: 10px;
+    }
+
+    .mistake-card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    .mistake-item-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid #ef4444;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      gap: 10px;
+    }
+
+    .mistake-word-title {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--text-main);
+    }
+
+    .mistake-word-sub {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Enhanced Mobile Touch & Keyboard Optimization */
     @media (max-width: 640px) {
-      .letter-cell {
-        width: 42px;
-        height: 52px;
-        font-size: 1.45rem;
+      main {
+        padding: 10px 8px;
+        gap: 12px;
       }
+
+      .game-stage {
+        padding: 16px 6px;
+        min-height: 420px;
+      }
+
+      .clue-section {
+        margin-bottom: 12px;
+        gap: 10px;
+      }
+
+      .word-definition-box {
+        padding: 10px 14px;
+      }
+
+      .definition-text {
+        font-size: 0.96rem;
+      }
+
+      .sentence-text {
+        font-size: 0.88rem;
+      }
+
+      .letter-cells-container {
+        gap: 4px;
+        margin: 12px 0 16px 0;
+        max-width: 100%;
+      }
+
+      .letter-cell {
+        width: clamp(34px, 8.8vw, 48px);
+        height: clamp(48px, 12vw, 60px);
+        font-size: clamp(1.3rem, 4.8vw, 1.8rem);
+        border-width: 2.5px;
+        border-radius: 8px;
+        touch-action: manipulation;
+      }
+
+      .keyboard-container {
+        margin-top: 14px;
+        gap: 5px;
+        padding: 0 1px;
+      }
+
+      .keyboard-row {
+        gap: 3px;
+      }
+
       .key-btn {
-        height: 42px;
+        height: 52px;
+        font-size: 1.25rem;
+        font-weight: 800;
+        border-radius: 6px;
+        box-shadow: 0 1.5px 0 var(--border);
+        touch-action: manipulation;
+      }
+
+      .key-btn.action-key {
+        flex: 1.35;
+        max-width: 66px;
+        font-size: 0.9rem;
+      }
+
+      .scramble-tiles-area {
+        gap: 6px;
+        margin: 12px 0;
+      }
+
+      .scramble-tile {
+        width: clamp(40px, 11vw, 54px);
+        height: clamp(46px, 12.5vw, 60px);
+        font-size: clamp(1.4rem, 4.5vw, 1.8rem);
+        touch-action: manipulation;
+      }
+
+      .btn-audio {
+        padding: 8px 18px;
+        font-size: 0.95rem;
+      }
+
+      .btn-main {
+        padding: 10px 22px;
         font-size: 1rem;
       }
-      .game-stage {
-        padding: 20px 14px;
+
+      .btn-secondary {
+        padding: 8px 14px;
+        font-size: 0.85rem;
       }
+
       header {
-        padding: 10px 14px;
+        padding: 8px 12px;
+      }
+
+      .header-container {
+        gap: 10px;
+      }
+
+      .brand-text h1 {
+        font-size: 1.15rem;
       }
     }
   </style>
@@ -1243,13 +1426,22 @@
       <div class="progress-track">
         <div class="progress-fill" id="progressBar"></div>
       </div>
-      <button class="btn-secondary" style="padding: 5px 14px; font-size: 0.85rem;" onclick="restartRound()">
-        <span>🔄</span>
-        <span class="bi-inline">
-          <span class="en">Restart</span>
-          <span class="zh">重练本组</span>
-        </span>
-      </button>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <button class="btn-secondary" id="shuffleToggleBtn" style="padding: 5px 12px; font-size: 0.85rem;" onclick="toggleShuffle()" title="Randomize word order / 随机乱序">
+          <span>🎲</span>
+          <span class="bi-inline">
+            <span class="en">Shuffle</span>
+            <span class="zh">随机</span>
+          </span>
+        </button>
+        <button class="btn-secondary" style="padding: 5px 12px; font-size: 0.85rem;" onclick="restartRound()">
+          <span>🔄</span>
+          <span class="bi-inline">
+            <span class="en">Restart</span>
+            <span class="zh">重练</span>
+          </span>
+        </button>
+      </div>
     </div>
 
     <!-- Forgiving Banner (Anti-Accidental-Submit Safety) -->
@@ -1339,6 +1531,25 @@
             </div>
             <label class="toggle-switch">
               <input type="checkbox" id="settingSecondChance" checked onchange="saveSettings()">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="toggle-row">
+            <div>
+              <div class="setting-label bi-inline">
+                <span class="en">🎲 Randomize Word Order (Shuffle)</span>
+                <span class="zh">单字顺序随机出现</span>
+              </div>
+              <div class="setting-desc bi-inline">
+                <span class="en">Shuffles the word order every round so questions appear randomly.</span>
+                <span class="zh">每轮练习随机打乱单词顺序，防止死记硬背原顺序。</span>
+              </div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="settingShuffleWords" checked onchange="saveSettings()">
               <span class="slider"></span>
             </label>
           </div>
@@ -1509,40 +1720,44 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
 
   <!-- Victory & Round Completion Modal -->
   <div class="modal-overlay" id="victoryModal">
-    <div class="modal-card" style="text-align: center; max-width: 500px;">
-      <div class="modal-body" style="align-items: center; padding: 36px 24px;">
-        <div style="font-size: 4.2rem; animation: floatIcon 2s infinite ease-in-out;">🏆</div>
-        <h2 style="font-size: 1.85rem; font-weight: 900; color: var(--primary); margin-top: 10px;">
+    <div class="modal-card" style="text-align: center; max-width: 520px;">
+      <div class="modal-body" style="align-items: center; padding: 28px 20px;">
+        <div style="font-size: 3.8rem; animation: floatIcon 2s infinite ease-in-out;">🏆</div>
+        <h2 style="font-size: 1.7rem; font-weight: 900; color: var(--primary); margin-top: 6px;">
           <span class="bi-txt">
-            <span class="en">Spectacular Job! List Complete!</span>
-            <span class="zh">太棒了！顺利通关本组！</span>
+            <span class="en">Round Complete!</span>
+            <span class="zh">本轮练习完成！</span>
           </span>
         </h2>
-        <p style="color: var(--text-muted); margin-top: 6px; font-weight:600;">
-          <span class="bi-txt">
-            <span class="en">All words practiced and mastered!</span>
-            <span class="zh">本组所有单词都已顺利完成挑战！</span>
-          </span>
-        </p>
-        
-        <div style="display:flex; gap:20px; justify-content:center; margin: 24px 0;">
-          <div style="background:var(--bg-page); padding:12px 22px; border-radius:var(--radius-md); border:1px solid var(--border);">
-            <div style="font-size:0.8rem; color:var(--text-muted); font-weight:700;">
-              <span class="bi-inline"><span class="en">Stars Earned</span><span class="zh">本组得分</span></span>
-            </div>
-            <div style="font-size:1.6rem; font-weight:900; color:#f59e0b;">+<span id="roundEarnedStars">10</span> ⭐</div>
-          </div>
-          <div style="background:var(--bg-page); padding:12px 22px; border-radius:var(--radius-md); border:1px solid var(--border);">
-            <div style="font-size:0.8rem; color:var(--text-muted); font-weight:700;">
-              <span class="bi-inline"><span class="en">Best Streak</span><span class="zh">最高连胜</span></span>
-            </div>
-            <div style="font-size:1.6rem; font-weight:900; color:#ef4444;">🔥 <span id="roundMaxStreak">5</span></div>
+
+        <!-- Score Ring Card -->
+        <div class="score-ratio-circle" id="victoryScoreCard">
+          <div class="score-fraction" id="roundScoreFraction">10 / 10</div>
+          <div class="score-label bi-inline">
+            <span class="en">Correct on First Try</span>
+            <span class="zh">首次完全拼对题数</span>
           </div>
         </div>
 
-        <div id="victoryAdvice" style="font-size:0.92rem; color:var(--text-main); font-weight:600; margin-bottom:10px;"></div>
+        <div style="display:flex; gap:12px; justify-content:center; width:100%; margin-bottom: 10px;">
+          <div style="flex:1; background:var(--bg-page); padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border);">
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700;">
+              <span class="bi-inline"><span class="en">Stars Earned</span><span class="zh">本轮得分</span></span>
+            </div>
+            <div style="font-size:1.5rem; font-weight:900; color:#f59e0b;">+<span id="roundEarnedStars">10</span> ⭐</div>
+          </div>
+          <div style="flex:1; background:var(--bg-page); padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border);">
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700;">
+              <span class="bi-inline"><span class="en">Best Streak</span><span class="zh">最高连胜</span></span>
+            </div>
+            <div style="font-size:1.5rem; font-weight:900; color:#ef4444;">🔥 <span id="roundMaxStreak">5</span></div>
+          </div>
+        </div>
+
+        <div id="victoryAdvice" style="font-size:0.92rem; color:var(--text-main); font-weight:600; width:100%;"></div>
+        <div id="victoryMistakesArea" style="width:100%;"></div>
       </div>
-      <div class="modal-footer" style="justify-content: center;">
+      <div class="modal-footer" style="justify-content: center; gap: 10px;">
         <button class="btn-secondary" onclick="closeModal('victoryModal'); restartRound();">
           <span>🔄</span>
           <span class="bi-inline"><span class="en">Practice Again</span><span class="zh">再练一遍</span></span>
@@ -1676,6 +1891,7 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
     // Settings
     let appSettings = {
       lang: "bilingual", // 'en' | 'bilingual' | 'zh'
+      shuffleWords: true, // Default random order!
       secondChance: true,
       undoToast: true,
       safeEnter: false,
@@ -1683,6 +1899,11 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
       voiceRate: 1.0,
       theme: "light"
     };
+
+    // Round words & mistake tracking
+    let activeRoundWords = [];
+    let roundMistakes = [];
+    let currentWordHadMistake = false;
 
     // Bilingual Dynamic Message Dictionary
     const I18N_MESSAGES = {
@@ -1870,6 +2091,8 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
       populateListSelector();
       applyTheme(appSettings.theme);
       applyLanguage(appSettings.lang);
+      initRoundWords();
+      updateShuffleButton();
       switchMode("type");
     }
 
@@ -1916,6 +2139,8 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
       if (savedSettings) {
         try { Object.assign(appSettings, JSON.parse(savedSettings)); } catch(e) {}
       }
+      if (appSettings.shuffleWords === undefined) appSettings.shuffleWords = true;
+      document.getElementById("settingShuffleWords").checked = appSettings.shuffleWords;
       document.getElementById("settingSecondChance").checked = appSettings.secondChance;
       document.getElementById("settingUndoToast").checked = appSettings.undoToast;
       document.getElementById("settingSafeEnter").checked = appSettings.safeEnter;
@@ -1924,6 +2149,7 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
       document.getElementById("settingTheme").value = appSettings.theme;
       document.getElementById("settingLanguageSelect").value = appSettings.lang;
       updateSoundIcon();
+      updateShuffleButton();
     }
 
     function saveStorage() {
@@ -1956,6 +2182,42 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
       if (sel) sel.value = lang;
     }
 
+    function toggleShuffle() {
+      appSettings.shuffleWords = !appSettings.shuffleWords;
+      document.getElementById("settingShuffleWords").checked = appSettings.shuffleWords;
+      saveStorage();
+      updateShuffleButton();
+      restartRound();
+      const txt = appSettings.shuffleWords 
+        ? (appSettings.lang === 'en' ? "Word order randomized! 🎲" : "已开启单字随机乱序！🎲") 
+        : (appSettings.lang === 'en' ? "Sequential order restored! 🔢" : "已恢复正序排列！🔢");
+      showForgivingBanner("🎲 Shuffle", txt, "success");
+      setTimeout(dismissBanner, 1600);
+    }
+
+    function updateShuffleButton() {
+      const btn = document.getElementById("shuffleToggleBtn");
+      if (!btn) return;
+      if (appSettings.shuffleWords) {
+        btn.style.borderColor = "var(--primary)";
+        btn.style.background = "var(--primary-light)";
+        btn.style.color = "var(--primary)";
+      } else {
+        btn.style.borderColor = "var(--border)";
+        btn.style.background = "var(--bg-card)";
+        btn.style.color = "var(--text-main)";
+      }
+    }
+
+    function shuffleArray(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
     function populateListSelector() {
       const select = document.getElementById("listSelect");
       select.innerHTML = "";
@@ -1968,21 +2230,42 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
       });
     }
 
-    function changeWordList(id) {
-      currentListId = id;
-      currentWordIndex = 0;
-      earnedStarsThisRound = 0;
-      maxStreakThisRound = 0;
-      dismissBanner();
-      renderStage();
-    }
-
-    function getActiveWords() {
+    function getActiveListWords() {
       if (currentMode === "tricky") {
         return trickyWords.length > 0 ? trickyWords : (wordLists[0]?.words || []);
       }
       const list = wordLists.find(l => l.id === currentListId);
       return list ? list.words : (wordLists[0]?.words || []);
+    }
+
+    function initRoundWords() {
+      const base = getActiveListWords();
+      if (!base || base.length === 0) {
+        activeRoundWords = [];
+      } else if (appSettings.shuffleWords && currentMode !== "flashcard") {
+        activeRoundWords = shuffleArray(base);
+      } else {
+        activeRoundWords = [...base];
+      }
+      currentWordIndex = 0;
+      roundMistakes = [];
+      currentWordHadMistake = false;
+      earnedStarsThisRound = 0;
+      maxStreakThisRound = 0;
+    }
+
+    function changeWordList(id) {
+      currentListId = id;
+      initRoundWords();
+      dismissBanner();
+      renderStage();
+    }
+
+    function getActiveWords() {
+      if (!activeRoundWords || activeRoundWords.length === 0) {
+        initRoundWords();
+      }
+      return activeRoundWords;
     }
 
     function getCurrentWordObj() {
@@ -2000,7 +2283,7 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
       const activeTab = document.getElementById(`tab-${mode}`);
       if (activeTab) activeTab.classList.add("active");
 
-      currentWordIndex = 0;
+      initRoundWords();
       secondChanceUsedForCurrent = false;
       dismissBanner();
       renderStage();
@@ -2371,6 +2654,10 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
       playSfx("almost");
       addTrickyWord(wordObj);
 
+      if (!roundMistakes.some(w => w.word.toLowerCase() === wordObj.word.toLowerCase())) {
+        roundMistakes.push(wordObj);
+      }
+
       if (appSettings.secondChance && !secondChanceUsedForCurrent) {
         secondChanceUsedForCurrent = true;
 
@@ -2427,9 +2714,7 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
     }
 
     function restartRound() {
-      currentWordIndex = 0;
-      earnedStarsThisRound = 0;
-      maxStreakThisRound = 0;
+      initRoundWords();
       dismissBanner();
       renderStage();
     }
@@ -2557,6 +2842,9 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
         if (rocketFuel <= 0) {
           showForgivingBanner(getI18nText("rocketEnergyDepleted"), getI18nText("rocketEnergyMsg"), "retry");
           addTrickyWord(wordObj);
+          if (!roundMistakes.some(w => w.word.toLowerCase() === wordObj.word.toLowerCase())) {
+            roundMistakes.push(wordObj);
+          }
         }
       }
     }
@@ -2564,6 +2852,9 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
     function revealRocketHint() {
       const wordObj = getCurrentWordObj();
       if (!wordObj) return;
+      if (!roundMistakes.some(w => w.word.toLowerCase() === wordObj.word.toLowerCase())) {
+        roundMistakes.push(wordObj);
+      }
       const target = wordObj.word.toLowerCase();
       const unrevealed = target.split("").filter(ch => !guessedLetters.has(ch) && ch !== " " && ch !== "-");
       if (unrevealed.length > 0) {
@@ -2713,6 +3004,9 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
         playSfx("almost");
         showForgivingBanner(getI18nText("almostTitle"), getI18nText("scrambleOrderTypo"), "retry");
         addTrickyWord(wordObj);
+        if (!roundMistakes.some(w => w.word.toLowerCase() === wordObj.word.toLowerCase())) {
+          roundMistakes.push(wordObj);
+        }
       }
     }
 
@@ -2835,24 +3129,97 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
       document.getElementById("roundEarnedStars").innerText = earnedStarsThisRound;
       document.getElementById("roundMaxStreak").innerText = maxStreakThisRound;
       
+      const totalWords = activeRoundWords.length;
+      const mistakesCount = roundMistakes.length;
+      const correctFirstTry = Math.max(0, totalWords - mistakesCount);
+
+      const scoreFractionEl = document.getElementById("roundScoreFraction");
+      if (scoreFractionEl) {
+        scoreFractionEl.innerText = `${correctFirstTry} / ${totalWords}`;
+      }
+
+      const scoreCard = document.getElementById("victoryScoreCard");
+      if (scoreCard) {
+        if (mistakesCount === 0) {
+          scoreCard.classList.add("perfect");
+        } else {
+          scoreCard.classList.remove("perfect");
+        }
+      }
+
       const adviceEl = document.getElementById("victoryAdvice");
-      if (trickyWords.length > 0) {
+      if (mistakesCount > 0) {
         adviceEl.innerHTML = `
           <div class="bi-txt">
-            <span class="en">You have <strong>${trickyWords.length}</strong> words saved in Tricky Words. Practice them anytime!</span>
-            <span class="zh">本组练习中有 <strong>${trickyWords.length}</strong> 个生词放入了错题本，建议切换到【⭐ 错题弱项本】强化巩固！</span>
+            <span class="en">Great effort! You got <strong>${correctFirstTry}</strong> out of <strong>${totalWords}</strong> words correct on the first try!</span>
+            <span class="zh">很棒的练习！第一遍直接全对拼出 <strong>${correctFirstTry}</strong> / <strong>${totalWords}</strong> 题！</span>
           </div>
         `;
       } else {
         adviceEl.innerHTML = `
           <div class="bi-txt">
-            <span class="en">💯 Perfect score with zero remaining errors! 5th Grade Spelling Champion!</span>
-            <span class="zh">💯 太厉害了！整组单词零失误或全部订正正确，五年级拼写大师非你莫属！</span>
+            <span class="en">💯 Perfect Score! All <strong>${totalWords}</strong> words spelled correctly on the first try!</span>
+            <span class="zh">💯 太厉害了！满分通关（${totalWords}/${totalWords}），全部单字一次全对！</span>
           </div>
         `;
       }
 
+      const mistakesArea = document.getElementById("victoryMistakesArea");
+      if (mistakesArea) {
+        if (mistakesCount === 0) {
+          mistakesArea.innerHTML = `
+            <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: var(--radius-md); padding: 14px; margin-top: 14px; text-align: center;">
+              <div style="font-size: 1.5rem; margin-bottom: 4px;">🎉 🌟 🏆</div>
+              <div style="font-weight: 800; color: #065f46; font-size: 1.05rem;">
+                <span class="bi-inline">
+                  <span class="en">Flawless 100%! No mistakes to review!</span>
+                  <span class="zh">零失误通关！本轮没有拼错的生词！</span>
+                </span>
+              </div>
+            </div>
+          `;
+        } else {
+          mistakesArea.innerHTML = `
+            <div class="mistake-review-container">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 8px; flex-wrap: wrap;">
+                <div class="mistake-header bi-inline" style="margin-bottom: 0;">
+                  <span class="en">⚠️ Words to Review (${mistakesCount}):</span>
+                  <span class="zh">⚠️ 本轮答错单字 (${mistakesCount} 个)：</span>
+                </div>
+                <button class="btn-secondary" style="padding: 4px 12px; font-size: 0.82rem; background: var(--primary-light); color: var(--primary); border-color: var(--primary);" onclick="practiceOnlyMistakes()">
+                  <span>🎯</span>
+                  <span class="bi-inline">
+                    <span class="en">Practice Missed Words</span>
+                    <span class="zh">只重练错题</span>
+                  </span>
+                </button>
+              </div>
+              <div class="mistake-card-list">
+                ${roundMistakes.map(w => `
+                  <div class="mistake-item-card">
+                    <div style="text-align: left;">
+                      <div class="mistake-word-title">${escapeHtml(w.word)}</div>
+                      <div class="mistake-word-sub">${w.syllables ? `[${escapeHtml(w.syllables)}] · ` : ''}${escapeHtml(w.def || '')}</div>
+                    </div>
+                    <button class="btn-icon" onclick="speakWord('${escapeQuote(w.word)}')" title="Listen / 听发音" style="width: 36px; height: 36px; font-size: 1.1rem; flex-shrink: 0;">🔊</button>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          `;
+        }
+      }
+
       openModal("victoryModal");
+    }
+
+    function practiceOnlyMistakes() {
+      if (roundMistakes.length === 0) return;
+      activeRoundWords = [...roundMistakes];
+      currentWordIndex = 0;
+      roundMistakes = [];
+      closeModal("victoryModal");
+      renderStage();
     }
 
     /* =========================================================
@@ -2871,12 +3238,14 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
     }
 
     function saveSettings() {
+      appSettings.shuffleWords = document.getElementById("settingShuffleWords").checked;
       appSettings.secondChance = document.getElementById("settingSecondChance").checked;
       appSettings.undoToast = document.getElementById("settingUndoToast").checked;
       appSettings.safeEnter = document.getElementById("settingSafeEnter").checked;
       appSettings.soundSfx = document.getElementById("settingSoundSfx").checked;
       appSettings.voiceRate = parseFloat(document.getElementById("settingVoiceRate").value) || 1.0;
       updateSoundIcon();
+      updateShuffleButton();
       saveStorage();
     }
 
