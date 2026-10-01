@@ -1561,8 +1561,24 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
        ========================================================= */
     const DEFAULT_WORD_LISTS = [
       {
+        id: "unit1_week5",
+        name: "🌟 Unit 1 Week 5: -le Syllables (Current HW / 本周作业)",
+        words: [
+          { word: "grumble", def: "to complain quietly about something in an unhappy or bad-tempered way", sentence: "He began to _____ when asked to clean up his room.", focus: true, syllables: "grum-ble" },
+          { word: "dawdle", def: "to waste time, move slowly, or take more time than necessary", sentence: "Don't _____ on your way to school or you will be late.", focus: true, syllables: "daw-dle" },
+          { word: "gurgle", def: "to make a hollow bubbling sound like water flowing over stones", sentence: "We listened to the mountain creek _____ peacefully over the smooth rocks.", focus: false, syllables: "gur-gle" },
+          { word: "wheedle", def: "to use sweet words or flattery to persuade someone to do something", sentence: "The little boy tried to _____ an extra cookie before dinner.", focus: true, syllables: "whee-dle" },
+          { word: "dwindle", def: "to diminish or become gradually smaller in size, amount, or strength", sentence: "Our fresh water supply began to _____ near the end of the long hike.", focus: true, syllables: "dwin-dle" },
+          { word: "circle", def: "a perfectly round 2D shape with every point equal distance from center", sentence: "Draw a bright red _____ around the correct spelling on your paper.", focus: false, syllables: "cir-cle" },
+          { word: "babble", def: "to talk rapidly and continuously in an excited, silly, or foolish way", sentence: "The cheerful baby started to _____ and giggle in the high chair.", focus: false, syllables: "bab-ble" },
+          { word: "gentle", def: "having or showing a mild, kind, or tender temperament or character", sentence: "Please be very _____ and quiet when petting the newborn puppy.", focus: false, syllables: "gen-tle" },
+          { word: "cycle", def: "a recurring series of events or operations that happen in succession", sentence: "In science class we studied the lifecycle and water _____ on Earth.", focus: false, syllables: "cy-cle" },
+          { word: "maple", def: "a tree with deeply lobed leaves, famous for producing sweet syrup", sentence: "We poured delicious warm _____ syrup all over our breakfast pancakes.", focus: true, syllables: "ma-ple" }
+        ]
+      },
+      {
         id: "unit1_week4",
-        name: "🌟 Unit 1 Week 4: VCe Syllables (Current HW)",
+        name: "Unit 1 Week 4: VCe Syllables",
         words: [
           { word: "admire", def: "to regard with respect or warm approval", sentence: "I really _____ the way she solved the tough riddle.", focus: true, syllables: "ad-mire" },
           { word: "define", def: "to state or set forth the meaning of", sentence: "Can you _____ the word using your own sentences?", focus: false, syllables: "de-fine" },
@@ -1630,7 +1646,7 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
        2. STATE & AUDIO SYNTHESIZER
        ========================================================= */
     let currentMode = "type"; // 'type' | 'rocket' | 'scramble' | 'flashcard' | 'tricky'
-    let currentListId = "unit1_week4";
+    let currentListId = "unit1_week5";
     let wordLists = [];
     let trickyWords = []; // Mistake notebook
     let currentWordIndex = 0;
@@ -1867,6 +1883,22 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
         }
       } else {
         wordLists = [...DEFAULT_WORD_LISTS];
+      }
+
+      // Ensure all standard weekly lists (e.g. newly added Week 5) exist and update
+      DEFAULT_WORD_LISTS.forEach(defList => {
+        const existingIdx = wordLists.findIndex(l => l.id === defList.id);
+        if (existingIdx === -1) {
+          wordLists.unshift(defList);
+        } else {
+          // Keep default definitions & sentences up to date
+          wordLists[existingIdx] = defList;
+        }
+      });
+
+      // Default selection to Week 5 if available
+      if (wordLists.some(l => l.id === "unit1_week5")) {
+        currentListId = "unit1_week5";
       }
 
       const savedTricky = localStorage.getItem("spellingHero_tricky");
