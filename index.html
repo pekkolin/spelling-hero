@@ -1,0 +1,3035 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="bilingual">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spelling Hero 拼写小英雄 - 5th Grade Word Playground</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #eef2ff;
+      --secondary: #06b6d4;
+      --accent: #f59e0b;
+      --accent-light: #fef3c7;
+      --success: #10b981;
+      --success-light: #d1fae5;
+      --danger: #ef4444;
+      --danger-light: #fee2e2;
+      --warning: #f97316;
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-lg: 0 12px 28px rgba(0,0,0,0.1);
+      --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    [data-theme="space"] {
+      --bg-page: #0f172a;
+      --bg-card: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --primary-light: #1e1b4b;
+      --success-light: #064e3b;
+      --accent-light: #451a03;
+    }
+
+    /* Bilingual layout styling */
+    .bi-txt {
+      display: inline-flex;
+      flex-direction: column;
+      line-height: 1.15;
+      text-align: inherit;
+      vertical-align: middle;
+    }
+
+    .bi-txt .en {
+      font-weight: 700;
+      font-size: 0.96em;
+      letter-spacing: 0.2px;
+    }
+
+    .bi-txt .zh {
+      font-size: 0.74em;
+      opacity: 0.85;
+      font-weight: 500;
+      margin-top: 1px;
+    }
+
+    .bi-inline {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .bi-inline .en {
+      font-weight: 700;
+    }
+
+    .bi-inline .zh {
+      font-size: 0.82em;
+      opacity: 0.8;
+    }
+
+    /* Language Mode Visibility */
+    [data-lang="en"] .zh {
+      display: none !important;
+    }
+
+    [data-lang="zh"] .en {
+      display: none !important;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    input, textarea {
+      user-select: text;
+    }
+
+    /* Header */
+    header {
+      background: var(--bg-card);
+      border-bottom: 2px solid var(--border);
+      padding: 10px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-container {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .brand-icon {
+      font-size: 2.1rem;
+      animation: floatIcon 3s ease-in-out infinite;
+    }
+
+    @keyframes floatIcon {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-4px) rotate(4deg); }
+    }
+
+    .brand-text h1 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #4f46e5, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-text p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .header-center {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .list-selector-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary-light);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(79, 70, 229, 0.2);
+    }
+
+    .list-selector-wrap label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    select.list-select {
+      background: transparent;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-main);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Language Switcher Button Group */
+    .lang-switcher {
+      display: flex;
+      background: var(--bg-page);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .lang-pill {
+      background: transparent;
+      border: none;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+
+    .lang-pill:hover {
+      color: var(--text-main);
+    }
+
+    .lang-pill.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3);
+    }
+
+    .stat-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--accent-light);
+      color: #b45309;
+      border-radius: var(--radius-full);
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+
+    .streak-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      background: #ffedd5;
+      color: #c2410c;
+      border-radius: var(--radius-full);
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+
+    .btn-icon {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+      color: var(--text-main);
+    }
+
+    .btn-icon:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    /* Mode Navigation Tabs */
+    .nav-tabs-wrap {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 24px;
+    }
+
+    .nav-tabs {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      border: 2px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      background: var(--bg-page);
+      color: var(--text-main);
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+
+    .tab-badge {
+      background: rgba(255,255,255,0.25);
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .tab-btn:not(.active) .tab-badge {
+      background: var(--border);
+      color: var(--text-muted);
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      max-width: 1120px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 18px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Progress & Status Bar */
+    .progress-bar-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .progress-info {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 10px;
+      background: var(--border);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4f46e5, #10b981);
+      width: 0%;
+      transition: width 0.4s ease;
+      border-radius: var(--radius-full);
+    }
+
+    .focus-tag {
+      background: #fef08a;
+      color: #854d0e;
+      padding: 3px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    /* Game Stage Card */
+    .game-stage {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px 24px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      min-height: 480px;
+      justify-content: center;
+    }
+
+    /* Clue & Audio Section */
+    .clue-section {
+      width: 100%;
+      max-width: 680px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .audio-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-audio {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: var(--radius-full);
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .btn-audio:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(79, 70, 229, 0.45);
+    }
+
+    .btn-audio:active {
+      transform: translateY(1px);
+    }
+
+    .btn-audio.slow {
+      background: var(--bg-page);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      font-size: 0.9rem;
+      box-shadow: none;
+    }
+
+    .btn-audio.slow:hover {
+      background: var(--border);
+    }
+
+    .word-definition-box {
+      background: var(--bg-page);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      width: 100%;
+    }
+
+    .definition-text {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .sentence-text {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-top: 4px;
+    }
+
+    .sentence-blank {
+      font-weight: 800;
+      color: var(--primary);
+      text-decoration: underline;
+      padding: 0 4px;
+    }
+
+    /* Letter Boxes (Wordle-style discrete grid) */
+    .letter-cells-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 18px 0 22px 0;
+      max-width: 760px;
+    }
+
+    .letter-cell {
+      width: 52px;
+      height: 62px;
+      border: 3px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 1.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .letter-cell:hover {
+      border-color: var(--primary);
+    }
+
+    .letter-cell.active {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.2);
+      transform: translateY(-3px);
+    }
+
+    .letter-cell.correct {
+      border-color: var(--success);
+      background: var(--success-light);
+      color: #065f46;
+    }
+
+    .letter-cell.warn-fix {
+      border-color: var(--warning);
+      background: #fff7ed;
+      color: #c2410c;
+      animation: gentleShake 0.4s ease-in-out;
+    }
+
+    @keyframes gentleShake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-4px); }
+      40%, 80% { transform: translateX(4px); }
+    }
+
+    /* Actions & Feedback Row */
+    .game-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .btn-main {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      border-radius: var(--radius-full);
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+      transition: all 0.2s;
+    }
+
+    .btn-main:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
+    }
+
+    .btn-main:active {
+      transform: translateY(1px);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      color: var(--text-main);
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-page);
+      border-color: var(--text-muted);
+    }
+
+    /* Second Chance & Forgiving Notification Banner */
+    .forgiving-banner {
+      width: 100%;
+      max-width: 640px;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      margin-bottom: 16px;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .forgiving-banner.retry {
+      display: flex;
+      background: #fef3c7;
+      border: 1px solid #fde047;
+      color: #92400e;
+    }
+
+    .forgiving-banner.success {
+      display: flex;
+      background: #d1fae5;
+      border: 1px solid #6ee7b7;
+      color: #065f46;
+    }
+
+    .forgiving-banner.revealed {
+      display: flex;
+      background: #fee2e2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+    }
+
+    /* 3-Second Floating Grace Period (后悔药条) */
+    .floating-undo-toast {
+      position: fixed;
+      bottom: 26px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1e293b;
+      color: #ffffff;
+      padding: 12px 22px;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      z-index: 999;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .floating-undo-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .undo-btn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      animation: pulseBtn 1s infinite alternate;
+    }
+
+    @keyframes pulseBtn {
+      from { transform: scale(1); }
+      to { transform: scale(1.05); }
+    }
+
+    .undo-timer-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      border-top-color: transparent;
+      animation: spinTimer 1s linear infinite;
+    }
+
+    @keyframes spinTimer {
+      to { transform: rotate(360deg); }
+    }
+
+    /* On-Screen Virtual Keyboard */
+    .keyboard-container {
+      width: 100%;
+      max-width: 680px;
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .keyboard-row {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .key-btn {
+      flex: 1;
+      height: 48px;
+      max-width: 54px;
+      background: var(--bg-page);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 0 var(--border);
+      transition: all 0.1s;
+    }
+
+    .key-btn:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+
+    .key-btn:active {
+      transform: translateY(2px);
+      box-shadow: none;
+    }
+
+    .key-btn.action-key {
+      max-width: 84px;
+      font-size: 0.85rem;
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    .key-btn.used-hit {
+      background: #d1fae5;
+      color: #065f46;
+      border-color: #10b981;
+    }
+
+    .key-btn.used-miss {
+      opacity: 0.35;
+      background: #f1f5f9;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Hangman / Space Rocket Graphic */
+    .space-mission-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      background: linear-gradient(180deg, #1e1b4b, #0f172a);
+      border-radius: var(--radius-lg);
+      padding: 16px 24px;
+      width: 100%;
+      max-width: 620px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stars-bg {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: radial-gradient(white 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: 0.25;
+    }
+
+    .rocket-display {
+      font-size: 3.5rem;
+      position: relative;
+      z-index: 2;
+      transition: transform 0.4s ease;
+    }
+
+    .fuel-tanks {
+      display: flex;
+      gap: 8px;
+      z-index: 2;
+    }
+
+    .fuel-pill {
+      width: 32px;
+      height: 12px;
+      border-radius: var(--radius-full);
+      background: #10b981;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+      transition: all 0.3s;
+    }
+
+    .fuel-pill.lost {
+      background: #475569;
+      box-shadow: none;
+      opacity: 0.4;
+    }
+
+    /* Word Scramble Tiles */
+    .scramble-tiles-area {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin: 18px 0;
+      min-height: 70px;
+      padding: 10px;
+    }
+
+    .scramble-tile {
+      width: 56px;
+      height: 62px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+      font-size: 1.8rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+      transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .scramble-tile:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 8px 16px rgba(245, 158, 11, 0.4);
+    }
+
+    .scramble-tile:active {
+      transform: translateY(2px);
+    }
+
+    .scramble-tile.placed {
+      opacity: 0.3;
+      transform: scale(0.9);
+      pointer-events: none;
+    }
+
+    /* Flashcard Style */
+    .flashcard-box {
+      width: 100%;
+      max-width: 540px;
+      min-height: 290px;
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .flashcard-box:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .flashcard-word {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .flashcard-syllables {
+      font-size: 1.25rem;
+      color: var(--secondary);
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+
+    .flashcard-meaning {
+      font-size: 1.15rem;
+      color: var(--text-main);
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .flashcard-example {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 16px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 660px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      animation: scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes scaleUp {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h2 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      background: var(--bg-page);
+    }
+
+    /* Settings Control Form */
+    .setting-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .setting-label {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .setting-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      background: var(--bg-page);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 26px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #cbd5e1;
+      transition: .3s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(22px);
+    }
+
+    /* Word list management UI */
+    .words-preview-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 10px;
+      background: var(--bg-page);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+
+    .word-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.88rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Canvas Confetti */
+    #confettiCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    @media (max-width: 640px) {
+      .letter-cell {
+        width: 42px;
+        height: 52px;
+        font-size: 1.45rem;
+      }
+      .key-btn {
+        height: 42px;
+        font-size: 1rem;
+      }
+      .game-stage {
+        padding: 20px 14px;
+      }
+      header {
+        padding: 10px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="brand" onclick="switchMode('type')">
+        <div class="brand-icon">🚀</div>
+        <div class="brand-text">
+          <h1>Spelling Hero</h1>
+          <p class="bi-inline">
+            <span class="en">5th Grade Word Playground</span>
+            <span class="zh">· 五年级拼字乐园</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="list-selector-wrap">
+          <label class="bi-inline">
+            <span class="en">📚 Word List:</span>
+            <span class="zh">单词表:</span>
+          </label>
+          <select id="listSelect" class="list-select" onchange="changeWordList(this.value)">
+            <!-- Options populated dynamically -->
+          </select>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- 3-way Language Switcher -->
+        <div class="lang-switcher" title="Language / 语言切换">
+          <button class="lang-pill" id="lang-btn-en" onclick="setLanguage('en')">🇺🇸 EN</button>
+          <button class="lang-pill active" id="lang-btn-bilingual" onclick="setLanguage('bilingual')">🌐 双语</button>
+          <button class="lang-pill" id="lang-btn-zh" onclick="setLanguage('zh')">🇨🇳 中文</button>
+        </div>
+
+        <div class="stat-badge" title="Score / 得分">
+          <span>⭐</span>
+          <span id="starScore">0</span>
+        </div>
+        <div class="streak-badge" title="Streak / 连胜">
+          <span>🔥</span>
+          <span id="streakCount">0</span>
+        </div>
+        <button class="btn-icon" onclick="openWordManager()" title="Manage Word Lists / 管理单词本">📝</button>
+        <button class="btn-icon" onclick="toggleMute()" id="soundToggleBtn" title="Sound Mute / 声音开关">🔊</button>
+        <button class="btn-icon" onclick="openSettings()" title="Settings & Anti-Slip / 设置与防手滑">⚙️</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Mode Tabs -->
+  <div class="nav-tabs-wrap">
+    <div class="nav-tabs">
+      <button class="tab-btn active" id="tab-type" onclick="switchMode('type')">
+        <span>⌨️</span>
+        <span class="bi-txt">
+          <span class="en">Type & Spell</span>
+          <span class="zh">打字听写</span>
+        </span>
+        <span class="tab-badge bi-txt">
+          <span class="en">Wordwall+</span>
+          <span class="zh">升级版</span>
+        </span>
+      </button>
+      <button class="tab-btn" id="tab-rocket" onclick="switchMode('rocket')">
+        <span>🚀</span>
+        <span class="bi-txt">
+          <span class="en">Space Launch</span>
+          <span class="zh">太空发射</span>
+        </span>
+        <span class="tab-badge bi-txt">
+          <span class="en">Hangman</span>
+          <span class="zh">护航猜词</span>
+        </span>
+      </button>
+      <button class="tab-btn" id="tab-scramble" onclick="switchMode('scramble')">
+        <span>🧩</span>
+        <span class="bi-txt">
+          <span class="en">Word Scramble</span>
+          <span class="zh">字母重排</span>
+        </span>
+        <span class="tab-badge bi-txt">
+          <span class="en">Anagram</span>
+          <span class="zh">拼图模式</span>
+        </span>
+      </button>
+      <button class="tab-btn" id="tab-flashcard" onclick="switchMode('flashcard')">
+        <span>🗂️</span>
+        <span class="bi-txt">
+          <span class="en">Flashcards</span>
+          <span class="zh">单词闪卡</span>
+        </span>
+        <span class="tab-badge bi-txt">
+          <span class="en">Study</span>
+          <span class="zh">速记复习</span>
+        </span>
+      </button>
+      <button class="tab-btn" id="tab-tricky" onclick="switchMode('tricky')">
+        <span>⭐</span>
+        <span class="bi-txt">
+          <span class="en">Tricky Words</span>
+          <span class="zh">错题弱项本</span>
+        </span>
+        <span class="tab-badge" id="trickyCountBadge">0</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Game Stage -->
+  <main>
+    <!-- Progress & Current Word Tracker -->
+    <div class="progress-bar-container">
+      <div class="progress-info">
+        <span id="progressText">Word 1 of 10</span>
+        <span id="focusBadge" class="focus-tag" style="display: none;">
+          <span class="bi-inline">
+            <span class="en">🌟 Focus Word</span>
+            <span class="zh">(重点词)</span>
+          </span>
+        </span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressBar"></div>
+      </div>
+      <button class="btn-secondary" style="padding: 5px 14px; font-size: 0.85rem;" onclick="restartRound()">
+        <span>🔄</span>
+        <span class="bi-inline">
+          <span class="en">Restart</span>
+          <span class="zh">重练本组</span>
+        </span>
+      </button>
+    </div>
+
+    <!-- Forgiving Banner (Anti-Accidental-Submit Safety) -->
+    <div class="forgiving-banner" id="forgivingBanner">
+      <span id="bannerIcon" style="font-size: 1.5rem;">🤔</span>
+      <div style="flex: 1;">
+        <div id="bannerTitle" style="font-weight: 800; font-size: 1.05rem;">Almost there!</div>
+        <div id="bannerMsg" style="font-size: 0.9rem; font-weight: 500; margin-top: 2px;"></div>
+      </div>
+      <button class="btn-secondary" style="padding: 4px 12px; font-size: 0.8rem;" onclick="dismissBanner()">
+        <span class="bi-inline">
+          <span class="en">Got it</span>
+          <span class="zh">知道了</span>
+        </span>
+      </button>
+    </div>
+
+    <!-- Active Stage Card -->
+    <div class="game-stage" id="stageCard">
+      <!-- Injected by JavaScript based on active game mode -->
+    </div>
+  </main>
+
+  <!-- 3-Second Oops / Undo Bar (手滑后悔药) -->
+  <div class="floating-undo-toast" id="undoToast">
+    <div class="undo-timer-circle"></div>
+    <span class="bi-txt">
+      <span class="en">Just submitted? <strong id="undoSecs">3</strong>s to undo:</span>
+      <span class="zh">刚按了送出？还有 <strong id="undoSecsZh">3</strong> 秒可撤回：</span>
+    </span>
+    <button class="undo-btn" onclick="triggerUndoSubmit()">
+      <span>↩️</span>
+      <span class="bi-txt">
+        <span class="en">Oops! Let me fix it! (Esc)</span>
+        <span class="zh">撤回！我要改！(Esc)</span>
+      </span>
+    </button>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>
+          <span>⚙️</span>
+          <span class="bi-inline">
+            <span class="en">Game & Anti-Slip Settings</span>
+            <span class="zh">设置与防手滑选项</span>
+          </span>
+        </h2>
+        <button class="btn-icon" onclick="closeModal('settingsModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: #eef2ff; border-left: 4px solid #4f46e5; padding: 12px 16px; border-radius: var(--radius-sm); font-size: 0.88rem; color: #3730a3; line-height: 1.45;">
+          💡 <strong>Designed to Stop Accidental Submit Frustration / 专为防误触设计：</strong><br>
+          <span class="en">With these safety nets turned on, accidentally pressing Enter or Submit won't ruin your streak or count as a mistake!</span>
+          <span class="zh">开启后，即使手滑按到送出也有多次后悔和二次修改机会，再也不用担心误触扣分。</span>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-label bi-inline">
+            <span class="en">🌐 Display Language</span>
+            <span class="zh">界面显示语言</span>
+          </div>
+          <div class="setting-desc bi-inline">
+            <span class="en">Choose English only for your son, or bilingual with Chinese subtitles.</span>
+            <span class="zh">可选择纯英文（适合孩子自主练习）或中英双语对照。</span>
+          </div>
+          <select id="settingLanguageSelect" class="list-select" style="background:var(--bg-page); border:1px solid var(--border); padding:8px 12px; border-radius:var(--radius-sm); margin-top:6px; font-weight:700;" onchange="setLanguage(this.value)">
+            <option value="en">🇺🇸 English Only (纯英文 · 推荐孩子单独使用)</option>
+            <option value="bilingual">🌐 Bilingual (中英双语对照 · 默认推荐)</option>
+            <option value="zh">🇨🇳 中文 (仅中文)</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <div class="toggle-row">
+            <div>
+              <div class="setting-label bi-inline">
+                <span class="en">🛡️ Gentle Second Chance</span>
+                <span class="zh">温柔二次机会</span>
+              </div>
+              <div class="setting-desc bi-inline">
+                <span class="en">Highlights small typos in yellow and gives a 2nd try without losing points.</span>
+                <span class="zh">拼错时不立刻扣分，而是高亮黄色格子给第二次修改机会。</span>
+              </div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="settingSecondChance" checked onchange="saveSettings()">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="toggle-row">
+            <div>
+              <div class="setting-label bi-inline">
+                <span class="en">⏱️ 3-Second Undo Grace Period</span>
+                <span class="zh">3秒后悔药浮动条</span>
+              </div>
+              <div class="setting-desc bi-inline">
+                <span class="en">Shows a 3-second floating bar after submitting to easily undo with Esc key.</span>
+                <span class="zh">点击送出后显示3秒倒计时，随时可按 Esc 一键撤回修改。</span>
+              </div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="settingUndoToast" checked onchange="saveSettings()">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="toggle-row">
+            <div>
+              <div class="setting-label bi-inline">
+                <span class="en">⌨️ Safe Enter Key Mode</span>
+                <span class="zh">回车防手滑保护</span>
+              </div>
+              <div class="setting-desc bi-inline">
+                <span class="en">Requires clicking the green button to submit so fast typing won't trigger Enter.</span>
+                <span class="zh">开启后必须点击绿色按钮提交，防止打字太快误敲回车送出。</span>
+              </div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="settingSafeEnter" onchange="saveSettings()">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="toggle-row">
+            <div>
+              <div class="setting-label bi-inline">
+                <span class="en">🔊 Sound Effects</span>
+                <span class="zh">音效开关</span>
+              </div>
+              <div class="setting-desc bi-inline">
+                <span class="en">Pleasant reward chimes (no scary loud buzzers).</span>
+                <span class="zh">柔和的过关提示音（无刺耳的惩罚警报音）。</span>
+              </div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="settingSoundSfx" checked onchange="saveSettings()">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-label bi-inline">
+            <span class="en">🗣️ Voice Pronunciation Speed</span>
+            <span class="zh">发音朗读语速</span>
+          </div>
+          <select id="settingVoiceRate" class="list-select" style="background:var(--bg-page); border:1px solid var(--border); padding:8px 12px; border-radius:var(--radius-sm); margin-top:6px; font-weight:700;" onchange="saveSettings()">
+            <option value="1.0">Normal Speed (1.0x) · 标准自然语速</option>
+            <option value="0.8">Relaxed Speed (0.8x) · 清晰适中</option>
+            <option value="0.65">Phonics Slow (0.65x) · 慢速辨音</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-label bi-inline">
+            <span class="en">🎨 Theme</span>
+            <span class="zh">界面主题</span>
+          </div>
+          <select id="settingTheme" class="list-select" style="background:var(--bg-page); border:1px solid var(--border); padding:8px 12px; border-radius:var(--radius-sm); margin-top:6px; font-weight:700;" onchange="changeTheme(this.value)">
+            <option value="light">☀️ Sunny Bright · 清新明亮</option>
+            <option value="space">🚀 Deep Space Astronaut · 深邃太空宇航员</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-main" onclick="closeModal('settingsModal')">
+          <span class="bi-inline">
+            <span class="en">Save & Close</span>
+            <span class="zh">保存并关闭</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Word Manager Modal (Custom Lists) -->
+  <div class="modal-overlay" id="wordManagerModal">
+    <div class="modal-card" style="max-width: 740px;">
+      <div class="modal-header">
+        <h2>
+          <span>📝</span>
+          <span class="bi-inline">
+            <span class="en">Manage Weekly Word Lists</span>
+            <span class="zh">每周单词表管理</span>
+          </span>
+        </h2>
+        <button class="btn-icon" onclick="closeModal('wordManagerModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <h3 class="bi-inline" style="font-size:1.05rem;">
+            <span class="en">Current Word List:</span>
+            <span class="zh">当前选择单词表：</span>
+          </h3>
+          <button class="btn-secondary" style="padding: 6px 14px; font-size:0.88rem;" onclick="showAddListForm()">
+            <span>+</span>
+            <span class="bi-inline">
+              <span class="en">Add New List</span>
+              <span class="zh">新建每周单词表</span>
+            </span>
+          </button>
+        </div>
+
+        <!-- Add Form (hidden by default) -->
+        <div id="addListContainer" style="display:none; background:var(--bg-page); border:1px solid var(--border); border-radius:var(--radius-md); padding:16px; margin-top:10px;">
+          <h4 class="bi-inline" style="margin-bottom:10px; font-size:0.95rem;">
+            <span class="en">Create Word List (Paste words directly)</span>
+            <span class="zh">新增单词表 (支持直接粘贴单词)</span>
+          </h4>
+          <input type="text" id="newListName" placeholder="e.g. Unit 2 Week 1: Vowel Teams" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:1px solid var(--border); margin-bottom:10px; font-size:0.9rem; font-weight:700;">
+          <textarea id="newListWords" rows="6" placeholder="Paste words separated by newlines or commas:
+e.g.
+admire
+define
+deplete
+firefly
+senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:1px solid var(--border); font-family:monospace; font-size:0.9rem; margin-bottom:10px;"></textarea>
+          <div style="display:flex; gap:10px; justify-content:flex-end;">
+            <button class="btn-secondary" onclick="hideAddListForm()">
+              <span class="bi-inline"><span class="en">Cancel</span><span class="zh">取消</span></span>
+            </button>
+            <button class="btn-main" style="padding:8px 20px; font-size:0.9rem;" onclick="saveNewWordList()">
+              <span class="bi-inline"><span class="en">Parse & Save</span><span class="zh">解析并保存</span></span>
+            </button>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <h4 class="bi-inline" style="font-size:0.95rem; margin-bottom:8px;">
+            <span class="en">Words in this list (<span id="managerWordCount">0</span> words):</span>
+            <span class="zh">包含单词 (<span id="managerWordCountZh">0</span> 个)：</span>
+          </h4>
+          <div class="words-preview-list" id="managerWordsList"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="exportData()">
+          <span>💾</span>
+          <span class="bi-inline"><span class="en">Export Backup (JSON)</span><span class="zh">导出备份</span></span>
+        </button>
+        <button class="btn-main" onclick="closeModal('wordManagerModal')">
+          <span class="bi-inline"><span class="en">Done</span><span class="zh">完成</span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Victory & Round Completion Modal -->
+  <div class="modal-overlay" id="victoryModal">
+    <div class="modal-card" style="text-align: center; max-width: 500px;">
+      <div class="modal-body" style="align-items: center; padding: 36px 24px;">
+        <div style="font-size: 4.2rem; animation: floatIcon 2s infinite ease-in-out;">🏆</div>
+        <h2 style="font-size: 1.85rem; font-weight: 900; color: var(--primary); margin-top: 10px;">
+          <span class="bi-txt">
+            <span class="en">Spectacular Job! List Complete!</span>
+            <span class="zh">太棒了！顺利通关本组！</span>
+          </span>
+        </h2>
+        <p style="color: var(--text-muted); margin-top: 6px; font-weight:600;">
+          <span class="bi-txt">
+            <span class="en">All words practiced and mastered!</span>
+            <span class="zh">本组所有单词都已顺利完成挑战！</span>
+          </span>
+        </p>
+        
+        <div style="display:flex; gap:20px; justify-content:center; margin: 24px 0;">
+          <div style="background:var(--bg-page); padding:12px 22px; border-radius:var(--radius-md); border:1px solid var(--border);">
+            <div style="font-size:0.8rem; color:var(--text-muted); font-weight:700;">
+              <span class="bi-inline"><span class="en">Stars Earned</span><span class="zh">本组得分</span></span>
+            </div>
+            <div style="font-size:1.6rem; font-weight:900; color:#f59e0b;">+<span id="roundEarnedStars">10</span> ⭐</div>
+          </div>
+          <div style="background:var(--bg-page); padding:12px 22px; border-radius:var(--radius-md); border:1px solid var(--border);">
+            <div style="font-size:0.8rem; color:var(--text-muted); font-weight:700;">
+              <span class="bi-inline"><span class="en">Best Streak</span><span class="zh">最高连胜</span></span>
+            </div>
+            <div style="font-size:1.6rem; font-weight:900; color:#ef4444;">🔥 <span id="roundMaxStreak">5</span></div>
+          </div>
+        </div>
+
+        <div id="victoryAdvice" style="font-size:0.92rem; color:var(--text-main); font-weight:600; margin-bottom:10px;"></div>
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button class="btn-secondary" onclick="closeModal('victoryModal'); restartRound();">
+          <span>🔄</span>
+          <span class="bi-inline"><span class="en">Practice Again</span><span class="zh">再练一遍</span></span>
+        </button>
+        <button class="btn-main" onclick="closeModal('victoryModal'); nextWordList();">
+          <span class="bi-inline"><span class="en">Next List</span><span class="zh">练下一组</span></span>
+          <span>➡️</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================
+       1. DATA: 5TH GRADE WORD LISTS (PRELOADED WITH ACTUAL HW)
+       ========================================================= */
+    const DEFAULT_WORD_LISTS = [
+      {
+        id: "unit1_week4",
+        name: "🌟 Unit 1 Week 4: VCe Syllables (Current HW)",
+        words: [
+          { word: "admire", def: "to regard with respect or warm approval", sentence: "I really _____ the way she solved the tough riddle.", focus: true, syllables: "ad-mire" },
+          { word: "define", def: "to state or set forth the meaning of", sentence: "Can you _____ the word using your own sentences?", focus: false, syllables: "de-fine" },
+          { word: "deplete", def: "to use up the supply or resources of", sentence: "Running for two hours will _____ your energy.", focus: true, syllables: "de-plete" },
+          { word: "firefly", def: "a nocturnal beetle that emits light", sentence: "We caught a glowing _____ in a glass jar at dusk.", focus: false, syllables: "fire-fly" },
+          { word: "senile", def: "showing a decline of mental faculty in old age", sentence: "The veterinarian cared for the elderly, _____ dog with patience.", focus: true, syllables: "se-nile" },
+          { word: "safety", def: "the condition of being protected from danger", sentence: "Always wear your helmet for bicycle _____.", focus: false, syllables: "safe-ty" },
+          { word: "timeline", def: "a chronological arrangement of events", sentence: "We drew a historical _____ of space exploration.", focus: false, syllables: "time-line" },
+          { word: "mutate", def: "to undergo change in form or nature", sentence: "Bacteria can _____ quickly to resist medicine.", focus: true, syllables: "mu-tate" },
+          { word: "locate", def: "to discover the exact place or position of", sentence: "Use the world atlas map to _____ Iceland.", focus: false, syllables: "lo-cate" },
+          { word: "immune", def: "protected or exempt, resistant to disease", sentence: "Her strong body was _____ to the common seasonal cold.", focus: true, syllables: "im-mune" }
+        ]
+      },
+      {
+        id: "unit1_week3",
+        name: "🌟 Unit 1 Week 3: Open Syllables",
+        words: [
+          { word: "robot", def: "a machine capable of carrying out complex actions", sentence: "He built a mini _____ that can clean the tabletop.", focus: false, syllables: "ro-bot" },
+          { word: "humid", def: "marked by a relatively high level of water vapor in the air", sentence: "The air felt sticky and _____ right before the thunderstorm.", focus: true, syllables: "hu-mid" },
+          { word: "crisis", def: "a time of intense difficulty, trouble, or danger", sentence: "The brave firefighters helped resolve the water shortage _____.", focus: true, syllables: "cri-sis" },
+          { word: "refocus", def: "to adjust one's focus or attention again", sentence: "Take a deep breath and _____ on your math worksheet.", focus: true, syllables: "re-fo-cus" },
+          { word: "basic", def: "forming an essential foundation or starting point", sentence: "Learning the _____ alphabet rules helps everyone spell.", focus: false, syllables: "ba-sic" },
+          { word: "comprehend", def: "to grasp mentally; understand fully", sentence: "It was hard to _____ how huge Jupiter really is.", focus: false, syllables: "com-pre-hend" },
+          { word: "neglect", def: "to fail to care for properly", sentence: "Never _____ feeding your pet hamster on time.", focus: true, syllables: "ne-glect" },
+          { word: "clumsy", def: "awkward in movement or in handling things", sentence: "The puppy was adorable but a little _____ on slippery floors.", focus: false, syllables: "clum-sy" },
+          { word: "occupy", def: "to take up space, time, or attention", sentence: "Building Lego sets will _____ his whole Saturday morning.", focus: true, syllables: "oc-cu-py" },
+          { word: "program", def: "a planned series of future events or performances", sentence: "We watched the lively musical _____ at the school auditorium.", focus: false, syllables: "pro-gram" }
+        ]
+      },
+      {
+        id: "unit1_week2",
+        name: "🌟 Unit 1 Week 2: Closed Syllables",
+        words: [
+          { word: "rustic", def: "related to the rural countryside; simple and charming", sentence: "They stayed in a cosy, _____ wooden cabin in the mountains.", focus: true, syllables: "rus-tic" },
+          { word: "transit", def: "the carrying of people or goods from one place to another", sentence: "The city's rapid _____ system includes buses and subways.", focus: false, syllables: "tran-sit" },
+          { word: "tantrum", def: "an uncontrolled outburst of anger and frustration", sentence: "The toddler threw a noisy _____ when bedtime arrived.", focus: false, syllables: "tan-trum" },
+          { word: "banish", def: "to require by authority to leave a country or place", sentence: "The royal king decided to _____ the greedy wizard from the castle.", focus: true, syllables: "ban-ish" },
+          { word: "culprit", def: "a person who is responsible for a crime or misdeed", sentence: "The muddy paw prints revealed the real _____ who ate the cookie.", focus: false, syllables: "cul-prit" },
+          { word: "ecstatic", def: "feeling or expressing overwhelming happiness or excitement", sentence: "The entire soccer team was _____ when they won the championship.", focus: true, syllables: "ec-stat-ic" },
+          { word: "inexact", def: "not precisely correct, true, or accurate", sentence: "His rough measurement of the board was _____ and needed measuring again.", focus: true, syllables: "in-ex-act" },
+          { word: "intrinsic", def: "belonging naturally; essential", sentence: "Curiosity is an _____ part of being a young scientist.", focus: true, syllables: "in-trin-sic" },
+          { word: "encampment", def: "a place with temporary accommodations of huts or tents", sentence: "The scouting troop set up their canvas _____ near the clear lake.", focus: false, syllables: "en-camp-ment" },
+          { word: "magnetic", def: "capable of being attracted by or acquiring the properties of a magnet", sentence: "The compass needle pointed steadily north due to the _____ field.", focus: false, syllables: "mag-net-ic" }
+        ]
+      },
+      {
+        id: "grade5_tricky",
+        name: "🏆 5th Grade High Frequency & Tricky Words",
+        words: [
+          { word: "accommodate", def: "to provide sufficient space or lodging for", sentence: "The large minivan can easily _____ all seven passengers.", focus: true, syllables: "ac-com-mo-date" },
+          { word: "achieve", def: "to successfully bring about or reach by effort", sentence: "With persistent practice, you will _____ your highest goals.", focus: true, syllables: "a-chieve" },
+          { word: "environment", def: "the surroundings or conditions in which an organism lives", sentence: "Planting trees helps protect our natural _____.", focus: true, syllables: "en-vi-ron-ment" },
+          { word: "rhythm", def: "a strong, regular, repeated pattern of movement or sound", sentence: "The drummer tapped a catchy, upbeat _____.", focus: true, syllables: "rhy-thm" },
+          { word: "separate", def: "to cause to move or be apart", sentence: "Make sure you _____ the recyclable plastic from the trash.", focus: false, syllables: "sep-a-rate" },
+          { word: "privilege", def: "a special right, advantage, or immunity", sentence: "Being chosen as the class leader was a great _____.", focus: true, syllables: "priv-i-lege" },
+          { word: "guarantee", def: "a formal promise or assurance that certain conditions will be met", sentence: "The store offered a one-year money-back _____ on the watch.", focus: true, syllables: "guar-an-tee" },
+          { word: "embarrass", def: "to cause someone to feel awkward, self-conscious, or ashamed", sentence: "His goofy dance moves were meant to make us laugh, not to _____ us.", focus: false, syllables: "em-bar-rass" },
+          { word: "necessary", def: "required to be done, achieved, or present; essential", sentence: "Warm winter coats and gloves are _____ in snowy Vermont.", focus: false, syllables: "nec-es-sary" },
+          { word: "foreign", def: "of, from, in, or characteristic of a country or language other than one's own", sentence: "She loves traveling to _____ countries to learn new languages.", focus: false, syllables: "for-eign" }
+        ]
+      }
+    ];
+
+    /* =========================================================
+       2. STATE & AUDIO SYNTHESIZER
+       ========================================================= */
+    let currentMode = "type"; // 'type' | 'rocket' | 'scramble' | 'flashcard' | 'tricky'
+    let currentListId = "unit1_week4";
+    let wordLists = [];
+    let trickyWords = []; // Mistake notebook
+    let currentWordIndex = 0;
+    let starScore = 0;
+    let streakCount = 0;
+    let maxStreakThisRound = 0;
+    let earnedStarsThisRound = 0;
+
+    // Second chance & Safe submit variables
+    let secondChanceUsedForCurrent = false;
+    let undoTimeout = null;
+    let undoSecondsLeft = 3;
+    let lastPendingWord = null;
+
+    // Type mode state
+    let typedLetters = [];
+    let activeCellIndex = 0;
+
+    // Rocket / Hangman state
+    let rocketFuel = 6;
+    let guessedLetters = new Set();
+
+    // Scramble state
+    let scrambleTiles = []; // { id, letter, placed }
+    let scramblePlaced = []; // array of tile objects placed in slot
+
+    // Settings
+    let appSettings = {
+      lang: "bilingual", // 'en' | 'bilingual' | 'zh'
+      secondChance: true,
+      undoToast: true,
+      safeEnter: false,
+      soundSfx: true,
+      voiceRate: 1.0,
+      theme: "light"
+    };
+
+    // Bilingual Dynamic Message Dictionary
+    const I18N_MESSAGES = {
+      almostTitle: {
+        en: "Almost there!",
+        bilingual: "Almost there! · 差一点点哦！",
+        zh: "差一点点哦！"
+      },
+      almostMsg: {
+        en: "Found a small typo! Click the yellow box or use Backspace to fix it, then try again!",
+        bilingual: "Found a small typo! Click yellow box to fix it! · 发现了小笔误，点击黄色格子修改后再试！",
+        zh: "发现了小笔误，点击黄色格子修改后再试一次！(二次机会不计入失误)"
+      },
+      notFinishedTitle: {
+        en: "Not finished yet!",
+        bilingual: "Not finished yet! · 还没拼完呢",
+        zh: "还没拼完呢"
+      },
+      notFinishedMsg: {
+        en: "Please fill in all empty letter boxes before submitting.",
+        bilingual: "Please fill in all letter boxes. · 还有空格子没填满，填完整再检查吧！",
+        zh: "还有空格子没有填满哦，继续把单词拼完整吧！"
+      },
+      undoSuccessTitle: {
+        en: "Undo Successful!",
+        bilingual: "Undo Successful! · 撤回成功！",
+        zh: "撤回成功！"
+      },
+      undoSuccessMsg: {
+        en: "Submission canceled! Take your time to fix any letters.",
+        bilingual: "Canceled! Take your time to fix it. · 已为你恢复输入，改好再送出！",
+        zh: "没关系，已经为你恢复输入状态，慢慢改好再送出！"
+      },
+      safeEnterTitle: {
+        en: "Safe Enter Active",
+        bilingual: "Safe Enter Active · 回车保护已开启",
+        zh: "回车防误触提醒"
+      },
+      safeEnterMsg: {
+        en: "Please click the green 'Check Answer' button to submit.",
+        bilingual: "Please click 'Check Answer' button. · 请点击绿色的【送出检查】按钮确认提交！",
+        zh: "已开启回车保护，请点击绿色的【送出检查】按钮确认提交！"
+      },
+      correctTitle: {
+        en: "Correct!",
+        bilingual: "Correct! · 拼写正确！",
+        zh: "拼写正确！"
+      },
+      cheerFirstTry: {
+        en: "🌟 Spectacular! First try! (+2⭐)",
+        bilingual: "🌟 Spectacular! First try! (+2⭐) · 完美拼写！一次过关！",
+        zh: "🌟 完美拼写！一次过关！(+2⭐)"
+      },
+      cheerSecondTry: {
+        en: "🎉 Great save on second chance! (+1⭐)",
+        bilingual: "🎉 Great save! (+1⭐) · 太棒了！自己发现并改对啦！",
+        zh: "🎉 太棒了！自己发现并改对啦！(+1⭐)"
+      },
+      revealedTitle: {
+        en: (w) => `Correct Spelling: ${w.toUpperCase()}`,
+        bilingual: (w) => `Correct: ${w.toUpperCase()} · 正确拼写是 ${w.toUpperCase()}`,
+        zh: (w) => `正确拼写是：${w.toUpperCase()}`
+      },
+      revealedMsg: {
+        en: "Don't worry! This word is saved in [Tricky Words] for quick practice.",
+        bilingual: "Saved to [Tricky Words] for practice. · 这个词已放入【错题弱项本】随时复习！",
+        zh: "别灰心！这个词已放入【错题弱项本】，一会儿再练一次就记住啦！"
+      },
+      rocketEnergyDepleted: {
+        en: "⚠️ Shield Energy Depleted!",
+        bilingual: "⚠️ Shield Depleted! · 能量已耗尽！",
+        zh: "⚠️ 能量已耗尽！"
+      },
+      rocketEnergyMsg: {
+        en: "Don't give up! Click [Rescue Hint] to light up a letter and keep going!",
+        bilingual: "Click [Rescue Hint] for a letter! · 点击【救援提示】为你点亮一个字母！",
+        zh: "别担心！点击【救援提示】为你点亮一个字母，继续完成拼写！"
+      },
+      scrambleIncomplete: {
+        en: "Click all letter tiles to fill the empty slots!",
+        bilingual: "Place all tiles into slots! · 把所有字母点上去排满空格吧！",
+        zh: "把下面的字母都点上去排满空格吧！"
+      },
+      scrambleOrderTypo: {
+        en: "Almost! Click any tile in the slot to swap its position and try again!",
+        bilingual: "Almost! Click slot to swap tiles. · 字母顺序差一点，点击格子换换位置！",
+        zh: "字母顺序差一点，点击格子里位置不对的字母退回，重新换个位置试试！"
+      }
+    };
+
+    function getI18nText(key, param = null) {
+      const entry = I18N_MESSAGES[key];
+      if (!entry) return "";
+      let val = entry[appSettings.lang] || entry["bilingual"] || entry["en"];
+      if (typeof val === "function") {
+        return val(param);
+      }
+      return val;
+    }
+
+    // Web Audio Synthesizer (Zero external mp3 dependency, 100% reliable)
+    let audioCtx = null;
+    function getAudioCtx() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playTone(freq, type = "sine", duration = 0.15, gainVal = 0.15) {
+      if (!appSettings.soundSfx) return;
+      try {
+        const ctx = getAudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(gainVal, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch (e) {
+        console.warn("Audio error:", e);
+      }
+    }
+
+    function playSfx(name) {
+      if (!appSettings.soundSfx) return;
+      if (name === "letter") {
+        playTone(380, "triangle", 0.06, 0.08);
+      } else if (name === "backspace") {
+        playTone(260, "sine", 0.08, 0.08);
+      } else if (name === "almost") {
+        playTone(330, "sine", 0.18, 0.12);
+        setTimeout(() => playTone(310, "sine", 0.22, 0.1), 120);
+      } else if (name === "correct") {
+        playTone(523.25, "triangle", 0.12, 0.15); // C5
+        setTimeout(() => playTone(659.25, "triangle", 0.12, 0.15), 90); // E5
+        setTimeout(() => playTone(783.99, "triangle", 0.15, 0.18), 180); // G5
+        setTimeout(() => playTone(1046.50, "triangle", 0.25, 0.2), 270); // C6
+      } else if (name === "fuel_loss") {
+        playTone(220, "sawtooth", 0.18, 0.08);
+      } else if (name === "win") {
+        [523, 659, 783, 1046, 1318].forEach((f, i) => {
+          setTimeout(() => playTone(f, "triangle", 0.25, 0.18), i * 110);
+        });
+      }
+    }
+
+    // Native Browser Speech Synthesizer (Natural US English voice)
+    function speakWord(text, rateMultiplier = 1.0) {
+      if (!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = appSettings.voiceRate * rateMultiplier;
+      utterance.pitch = 1.0;
+      utterance.lang = "en-US";
+      
+      const voices = window.speechSynthesis.getVoices();
+      const usVoice = voices.find(v => v.lang.startsWith("en-US") && (v.name.includes("Samantha") || v.name.includes("Natural") || v.name.includes("Google") || v.name.includes("David") || v.name.includes("Zira")));
+      if (usVoice) utterance.voice = usVoice;
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function speakSentence(sentence) {
+      if (!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(sentence);
+      utterance.rate = 0.9;
+      utterance.lang = "en-US";
+      window.speechSynthesis.speak(utterance);
+    }
+
+    /* =========================================================
+       3. INITIALIZATION & STORAGE
+       ========================================================= */
+    function initApp() {
+      loadStorage();
+      populateListSelector();
+      applyTheme(appSettings.theme);
+      applyLanguage(appSettings.lang);
+      switchMode("type");
+    }
+
+    function loadStorage() {
+      const savedLists = localStorage.getItem("spellingHero_wordLists");
+      if (savedLists) {
+        try {
+          wordLists = JSON.parse(savedLists);
+        } catch (e) {
+          wordLists = [...DEFAULT_WORD_LISTS];
+        }
+      } else {
+        wordLists = [...DEFAULT_WORD_LISTS];
+      }
+
+      const savedTricky = localStorage.getItem("spellingHero_tricky");
+      if (savedTricky) {
+        try { trickyWords = JSON.parse(savedTricky); } catch(e) { trickyWords = []; }
+      }
+
+      starScore = parseInt(localStorage.getItem("spellingHero_starScore") || "0", 10);
+      streakCount = parseInt(localStorage.getItem("spellingHero_streakCount") || "0", 10);
+      document.getElementById("starScore").innerText = starScore;
+      document.getElementById("streakCount").innerText = streakCount;
+      updateTrickyBadge();
+
+      const savedSettings = localStorage.getItem("spellingHero_settings");
+      if (savedSettings) {
+        try { Object.assign(appSettings, JSON.parse(savedSettings)); } catch(e) {}
+      }
+      document.getElementById("settingSecondChance").checked = appSettings.secondChance;
+      document.getElementById("settingUndoToast").checked = appSettings.undoToast;
+      document.getElementById("settingSafeEnter").checked = appSettings.safeEnter;
+      document.getElementById("settingSoundSfx").checked = appSettings.soundSfx;
+      document.getElementById("settingVoiceRate").value = appSettings.voiceRate.toString();
+      document.getElementById("settingTheme").value = appSettings.theme;
+      document.getElementById("settingLanguageSelect").value = appSettings.lang;
+      updateSoundIcon();
+    }
+
+    function saveStorage() {
+      localStorage.setItem("spellingHero_wordLists", JSON.stringify(wordLists));
+      localStorage.setItem("spellingHero_tricky", JSON.stringify(trickyWords));
+      localStorage.setItem("spellingHero_starScore", starScore.toString());
+      localStorage.setItem("spellingHero_streakCount", streakCount.toString());
+      localStorage.setItem("spellingHero_settings", JSON.stringify(appSettings));
+      updateTrickyBadge();
+    }
+
+    function updateTrickyBadge() {
+      document.getElementById("trickyCountBadge").innerText = trickyWords.length;
+    }
+
+    /* Language Switcher Logic */
+    function setLanguage(lang) {
+      appSettings.lang = lang;
+      applyLanguage(lang);
+      saveStorage();
+      renderStage(); // re-render to update dynamic captions
+    }
+
+    function applyLanguage(lang) {
+      document.documentElement.setAttribute("data-lang", lang);
+      document.querySelectorAll(".lang-pill").forEach(p => p.classList.remove("active"));
+      const pill = document.getElementById(`lang-btn-${lang}`);
+      if (pill) pill.classList.add("active");
+      const sel = document.getElementById("settingLanguageSelect");
+      if (sel) sel.value = lang;
+    }
+
+    function populateListSelector() {
+      const select = document.getElementById("listSelect");
+      select.innerHTML = "";
+      wordLists.forEach(l => {
+        const opt = document.createElement("option");
+        opt.value = l.id;
+        opt.innerText = l.name;
+        if (l.id === currentListId) opt.selected = true;
+        select.appendChild(opt);
+      });
+    }
+
+    function changeWordList(id) {
+      currentListId = id;
+      currentWordIndex = 0;
+      earnedStarsThisRound = 0;
+      maxStreakThisRound = 0;
+      dismissBanner();
+      renderStage();
+    }
+
+    function getActiveWords() {
+      if (currentMode === "tricky") {
+        return trickyWords.length > 0 ? trickyWords : (wordLists[0]?.words || []);
+      }
+      const list = wordLists.find(l => l.id === currentListId);
+      return list ? list.words : (wordLists[0]?.words || []);
+    }
+
+    function getCurrentWordObj() {
+      const words = getActiveWords();
+      if (!words || words.length === 0) return null;
+      return words[currentWordIndex % words.length];
+    }
+
+    /* =========================================================
+       4. GAME MODES NAVIGATION
+       ========================================================= */
+    function switchMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+      const activeTab = document.getElementById(`tab-${mode}`);
+      if (activeTab) activeTab.classList.add("active");
+
+      currentWordIndex = 0;
+      secondChanceUsedForCurrent = false;
+      dismissBanner();
+      renderStage();
+    }
+
+    function renderStage() {
+      const wordObj = getCurrentWordObj();
+      const words = getActiveWords();
+
+      const total = words.length;
+      const currentNum = Math.min(currentWordIndex + 1, total);
+      document.getElementById("progressText").innerText = `Word ${currentNum} of ${total}`;
+      const pct = total > 0 ? (currentWordIndex / total) * 100 : 0;
+      document.getElementById("progressBar").style.width = `${pct}%`;
+
+      const focusTag = document.getElementById("focusBadge");
+      if (wordObj && wordObj.focus) {
+        focusTag.style.display = "inline-block";
+      } else {
+        focusTag.style.display = "none";
+      }
+
+      if (!wordObj) {
+        document.getElementById("stageCard").innerHTML = `
+          <div style="text-align:center; padding: 40px;">
+            <div style="font-size:3rem; margin-bottom:12px;">🌟</div>
+            <h3 class="bi-inline">
+              <span class="en">No Words Available</span>
+              <span class="zh">当前没有单词</span>
+            </h3>
+            <p class="bi-inline" style="color:var(--text-muted); margin-top:6px;">
+              <span class="en">Click 📝 above to add weekly spelling words!</span>
+              <span class="zh">请点击右上角 📝 管理每周单词本 来添加单词！</span>
+            </p>
+          </div>
+        `;
+        return;
+      }
+
+      if (currentMode === "type" || currentMode === "tricky") {
+        renderTypeMode(wordObj);
+      } else if (currentMode === "rocket") {
+        renderRocketMode(wordObj);
+      } else if (currentMode === "scramble") {
+        renderScrambleMode(wordObj);
+      } else if (currentMode === "flashcard") {
+        renderFlashcardMode(wordObj);
+      }
+    }
+
+    /* =========================================================
+       5. MODE 1: TYPE & SPELL (打字听写 - 核心防手滑)
+       ========================================================= */
+    function renderTypeMode(wordObj) {
+      const cleanWord = wordObj.word.toLowerCase();
+      typedLetters = new Array(cleanWord.length).fill("");
+      activeCellIndex = 0;
+      secondChanceUsedForCurrent = false;
+
+      const stage = document.getElementById("stageCard");
+      stage.innerHTML = `
+        <div class="clue-section">
+          <div class="audio-controls">
+            <button class="btn-audio" onclick="playCurrentAudio(1.0)">
+              <span>🔊</span>
+              <span class="bi-inline">
+                <span class="en">Listen</span>
+                <span class="zh">听发音</span>
+              </span>
+            </button>
+            <button class="btn-audio slow" onclick="playCurrentAudio(0.68)">
+              <span>🐢</span>
+              <span class="bi-inline">
+                <span class="en">Slow (Phonics)</span>
+                <span class="zh">慢速辨音</span>
+              </span>
+            </button>
+          </div>
+
+          <div class="word-definition-box">
+            <div class="definition-text">📖 ${wordObj.def || "Listen and spell the word"}</div>
+            ${wordObj.sentence ? `
+              <div class="sentence-text">
+                "${escapeHtml(wordObj.sentence).replace(/_+|\[.*?\]/g, `<span class="sentence-blank">_______</span>`)}"
+                <button onclick="speakSentence('${escapeQuote(wordObj.sentence.replace(/_+/g, wordObj.word))}')" style="background:none; border:none; cursor:pointer; font-size:1rem;" title="Listen to sentence">🔊</button>
+              </div>
+            ` : ""}
+          </div>
+        </div>
+
+        <!-- Discrete Letter Cells (Wordle-style) -->
+        <div class="letter-cells-container" id="typeCellsContainer">
+          ${cleanWord.split("").map((ch, idx) => `
+            <div class="letter-cell ${idx === 0 ? 'active' : ''}" 
+                 id="cell-${idx}" 
+                 onclick="focusCell(${idx})">
+            </div>
+          `).join("")}
+        </div>
+
+        <div class="game-actions-row">
+          <button class="btn-secondary" onclick="clearTypedWord()">
+            <span>🔄</span>
+            <span class="bi-inline">
+              <span class="en">Clear</span>
+              <span class="zh">清空</span>
+            </span>
+          </button>
+          <button class="btn-main" id="submitBtn" onclick="evaluateTypeAttempt()">
+            <span>✨</span>
+            <span class="bi-inline">
+              <span class="en">Check Answer</span>
+              <span class="zh">送出检查</span>
+            </span>
+          </button>
+        </div>
+
+        <!-- On-screen keyboard for iPad/Touch -->
+        <div class="keyboard-container">
+          <div class="keyboard-row">
+            ${["q","w","e","r","t","y","u","i","o","p"].map(k => `<button class="key-btn" onclick="handleVirtualKey('${k}')">${k.toUpperCase()}</button>`).join("")}
+          </div>
+          <div class="keyboard-row">
+            ${["a","s","d","f","g","h","j","k","l"].map(k => `<button class="key-btn" onclick="handleVirtualKey('${k}')">${k.toUpperCase()}</button>`).join("")}
+          </div>
+          <div class="keyboard-row">
+            <button class="key-btn action-key" onclick="handleVirtualKey('BACK')">
+              <span class="bi-inline"><span class="en">⌫ Back</span><span class="zh">退格</span></span>
+            </button>
+            ${["z","x","c","v","b","n","m"].map(k => `<button class="key-btn" onclick="handleVirtualKey('${k}')">${k.toUpperCase()}</button>`).join("")}
+            <button class="key-btn action-key" style="background:#10b981; color:white; font-weight:800;" onclick="handleVirtualKey('ENTER')">
+              <span class="bi-inline"><span class="en">Enter ⏎</span><span class="zh">送出</span></span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      setTimeout(() => playCurrentAudio(1.0), 200);
+    }
+
+    function playCurrentAudio(rate = 1.0) {
+      const wordObj = getCurrentWordObj();
+      if (wordObj) {
+        speakWord(wordObj.word, rate);
+      }
+    }
+
+    function focusCell(idx) {
+      const wordObj = getCurrentWordObj();
+      if (!wordObj || idx < 0 || idx >= wordObj.word.length) return;
+      activeCellIndex = idx;
+      updateCellVisuals();
+    }
+
+    function updateCellVisuals() {
+      const wordObj = getCurrentWordObj();
+      if (!wordObj) return;
+      for (let i = 0; i < wordObj.word.length; i++) {
+        const cell = document.getElementById(`cell-${i}`);
+        if (!cell) continue;
+        cell.innerText = (typedLetters[i] || "").toUpperCase();
+        cell.classList.remove("active");
+        if (i === activeCellIndex) {
+          cell.classList.add("active");
+        }
+      }
+    }
+
+    function handleInputLetter(letter) {
+      const wordObj = getCurrentWordObj();
+      if (!wordObj) return;
+      const len = wordObj.word.length;
+      if (activeCellIndex >= len) activeCellIndex = len - 1;
+
+      typedLetters[activeCellIndex] = letter.toLowerCase();
+      playSfx("letter");
+
+      if (activeCellIndex < len - 1) {
+        activeCellIndex++;
+      }
+      updateCellVisuals();
+    }
+
+    function handleBackspace() {
+      const wordObj = getCurrentWordObj();
+      if (!wordObj) return;
+
+      if (typedLetters[activeCellIndex]) {
+        typedLetters[activeCellIndex] = "";
+      } else if (activeCellIndex > 0) {
+        activeCellIndex--;
+        typedLetters[activeCellIndex] = "";
+      }
+      playSfx("backspace");
+      updateCellVisuals();
+    }
+
+    function clearTypedWord() {
+      const wordObj = getCurrentWordObj();
+      if (!wordObj) return;
+      typedLetters = new Array(wordObj.word.length).fill("");
+      activeCellIndex = 0;
+      updateCellVisuals();
+    }
+
+    function handleVirtualKey(k) {
+      if (k === "BACK") {
+        handleBackspace();
+      } else if (k === "ENTER") {
+        evaluateTypeAttempt();
+      } else {
+        handleInputLetter(k);
+      }
+    }
+
+    // Physical Keyboard Listener
+    window.addEventListener("keydown", (e) => {
+      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+
+      if (e.key === "Escape") {
+        triggerUndoSubmit();
+        return;
+      }
+
+      if (currentMode === "type" || currentMode === "tricky") {
+        if (/^[a-zA-Z]$/.test(e.key)) {
+          e.preventDefault();
+          handleInputLetter(e.key);
+        } else if (e.key === "Backspace") {
+          e.preventDefault();
+          handleBackspace();
+        } else if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          if (activeCellIndex > 0) {
+            activeCellIndex--;
+            updateCellVisuals();
+          }
+        } else if (e.key === "ArrowRight") {
+          e.preventDefault();
+          const wordObj = getCurrentWordObj();
+          if (wordObj && activeCellIndex < wordObj.word.length - 1) {
+            activeCellIndex++;
+            updateCellVisuals();
+          }
+        } else if (e.key === "Enter") {
+          e.preventDefault();
+          if (appSettings.safeEnter) {
+            showForgivingBanner(getI18nText("safeEnterTitle"), getI18nText("safeEnterMsg"), "retry");
+          } else {
+            evaluateTypeAttempt();
+          }
+        }
+      } else if (currentMode === "rocket") {
+        if (/^[a-zA-Z]$/.test(e.key)) {
+          e.preventDefault();
+          guessRocketLetter(e.key.toLowerCase());
+        }
+      }
+    });
+
+    /* =========================================================
+       6. THE CORE REVOLUTION: ANTI-ACCIDENTAL-SUBMISSION LOGIC
+       ========================================================= */
+    function evaluateTypeAttempt() {
+      const wordObj = getCurrentWordObj();
+      if (!wordObj) return;
+
+      const userSubmission = typedLetters.join("").toLowerCase();
+      const targetWord = wordObj.word.toLowerCase();
+
+      if (userSubmission.length < targetWord.length || typedLetters.some(c => !c)) {
+        showForgivingBanner(getI18nText("notFinishedTitle"), getI18nText("notFinishedMsg"), "retry");
+        return;
+      }
+
+      if (appSettings.undoToast) {
+        showUndoToast(() => {
+          processVerification(userSubmission, targetWord, wordObj);
+        });
+      } else {
+        processVerification(userSubmission, targetWord, wordObj);
+      }
+    }
+
+    function showUndoToast(onConfirmed) {
+      lastPendingWord = onConfirmed;
+      undoSecondsLeft = 3;
+      const toast = document.getElementById("undoToast");
+      document.getElementById("undoSecs").innerText = undoSecondsLeft;
+      document.getElementById("undoSecsZh").innerText = undoSecondsLeft;
+      toast.classList.add("show");
+
+      if (undoTimeout) clearInterval(undoTimeout);
+      undoTimeout = setInterval(() => {
+        undoSecondsLeft--;
+        document.getElementById("undoSecs").innerText = undoSecondsLeft;
+        document.getElementById("undoSecsZh").innerText = undoSecondsLeft;
+        if (undoSecondsLeft <= 0) {
+          clearInterval(undoTimeout);
+          undoTimeout = null;
+          toast.classList.remove("show");
+          if (lastPendingWord) {
+            const cb = lastPendingWord;
+            lastPendingWord = null;
+            cb();
+          }
+        }
+      }, 1000);
+    }
+
+    function triggerUndoSubmit() {
+      if (undoTimeout) {
+        clearInterval(undoTimeout);
+        undoTimeout = null;
+      }
+      lastPendingWord = null;
+      const toast = document.getElementById("undoToast");
+      toast.classList.remove("show");
+
+      showForgivingBanner(getI18nText("undoSuccessTitle"), getI18nText("undoSuccessMsg"), "retry");
+      playSfx("click");
+    }
+
+    function processVerification(userSubmission, targetWord, wordObj) {
+      if (userSubmission === targetWord) {
+        handleWordSuccess(wordObj);
+      } else {
+        handleWordTypo(userSubmission, targetWord, wordObj);
+      }
+    }
+
+    function handleWordSuccess(wordObj) {
+      playSfx("correct");
+      fireMiniConfetti();
+
+      for (let i = 0; i < wordObj.word.length; i++) {
+        const cell = document.getElementById(`cell-${i}`);
+        if (cell) {
+          cell.classList.remove("active", "warn-fix");
+          cell.classList.add("correct");
+        }
+      }
+
+      let starsGained = secondChanceUsedForCurrent ? 1 : 2;
+      starScore += starsGained;
+      streakCount++;
+      if (streakCount > maxStreakThisRound) maxStreakThisRound = streakCount;
+      earnedStarsThisRound += starsGained;
+
+      document.getElementById("starScore").innerText = starScore;
+      document.getElementById("streakCount").innerText = streakCount;
+      saveStorage();
+
+      const cheer = secondChanceUsedForCurrent ? getI18nText("cheerSecondTry") : getI18nText("cheerFirstTry");
+      showForgivingBanner(getI18nText("correctTitle"), cheer, "success");
+
+      if (currentMode === "tricky") {
+        removeTrickyWord(wordObj.word);
+      }
+
+      setTimeout(() => {
+        dismissBanner();
+        advanceToNextWord();
+      }, 1600);
+    }
+
+    function handleWordTypo(userSubmission, targetWord, wordObj) {
+      playSfx("almost");
+      addTrickyWord(wordObj);
+
+      if (appSettings.secondChance && !secondChanceUsedForCurrent) {
+        secondChanceUsedForCurrent = true;
+
+        let firstMistakeIndex = -1;
+        for (let i = 0; i < targetWord.length; i++) {
+          const cell = document.getElementById(`cell-${i}`);
+          if (!cell) continue;
+          if (userSubmission[i] !== targetWord[i]) {
+            cell.classList.add("warn-fix");
+            if (firstMistakeIndex === -1) firstMistakeIndex = i;
+          } else {
+            cell.classList.add("correct");
+          }
+        }
+
+        if (firstMistakeIndex !== -1) {
+          activeCellIndex = firstMistakeIndex;
+          updateCellVisuals();
+        }
+
+        showForgivingBanner(getI18nText("almostTitle"), getI18nText("almostMsg"), "retry");
+      } else {
+        streakCount = 0;
+        document.getElementById("streakCount").innerText = streakCount;
+        saveStorage();
+
+        showForgivingBanner(getI18nText("revealedTitle", wordObj.word), getI18nText("revealedMsg"), "revealed");
+
+        typedLetters = targetWord.split("");
+        updateCellVisuals();
+        for (let i = 0; i < targetWord.length; i++) {
+          const cell = document.getElementById(`cell-${i}`);
+          if (cell) {
+            cell.classList.remove("warn-fix");
+            cell.classList.add("correct");
+          }
+        }
+
+        setTimeout(() => {
+          dismissBanner();
+          advanceToNextWord();
+        }, 2800);
+      }
+    }
+
+    function advanceToNextWord() {
+      const words = getActiveWords();
+      currentWordIndex++;
+      if (currentWordIndex >= words.length) {
+        showVictoryModal();
+      } else {
+        renderStage();
+      }
+    }
+
+    function restartRound() {
+      currentWordIndex = 0;
+      earnedStarsThisRound = 0;
+      maxStreakThisRound = 0;
+      dismissBanner();
+      renderStage();
+    }
+
+    function nextWordList() {
+      const idx = wordLists.findIndex(l => l.id === currentListId);
+      if (idx !== -1 && idx < wordLists.length - 1) {
+        changeWordList(wordLists[idx + 1].id);
+        document.getElementById("listSelect").value = wordLists[idx + 1].id;
+      } else {
+        restartRound();
+      }
+    }
+
+    /* =========================================================
+       7. MODE 2: ROCKET LAUNCH / HANGMAN (太空护航猜词)
+       ========================================================= */
+    function renderRocketMode(wordObj) {
+      rocketFuel = 6;
+      guessedLetters.clear();
+
+      const stage = document.getElementById("stageCard");
+      stage.innerHTML = `
+        <div class="space-mission-box">
+          <div class="stars-bg"></div>
+          <div style="font-size:0.95rem; font-weight:800; z-index:2; color:#38bdf8;">
+            <span class="bi-inline">
+              <span class="en">🚀 Rocket Mission</span>
+              <span class="zh">太空护航任务</span>
+            </span>
+          </div>
+          <div class="rocket-display" id="rocketGraphic">🚀</div>
+          <div class="fuel-tanks" id="fuelTanks">
+            ${new Array(6).fill(0).map((_, i) => `<div class="fuel-pill" id="fuel-${i}"></div>`).join("")}
+          </div>
+          <div style="font-size:0.85rem; color:#94a3b8; z-index:2; font-weight:600;">
+            <span class="bi-inline">
+              <span class="en">Shield Energy: <strong id="fuelCount" style="color:#38bdf8;">6</strong> / 6</span>
+              <span class="zh">护盾能量 (降落前可使用救援提示)</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="clue-section">
+          <div class="audio-controls">
+            <button class="btn-audio" onclick="playCurrentAudio(1.0)">
+              <span>🔊</span>
+              <span class="bi-inline"><span class="en">Listen</span><span class="zh">听发音</span></span>
+            </button>
+            <button class="btn-secondary" onclick="revealRocketHint()">
+              <span>💡</span>
+              <span class="bi-inline"><span class="en">Rescue Hint</span><span class="zh">救援提示</span></span>
+            </button>
+          </div>
+
+          <div class="word-definition-box">
+            <div class="definition-text">📖 ${wordObj.def || "Guess the letters"}</div>
+            ${wordObj.syllables ? `<div class="sentence-text">Syllables: <strong>${wordObj.syllables}</strong></div>` : ""}
+          </div>
+        </div>
+
+        <div class="letter-cells-container" id="rocketWordDisplay"></div>
+
+        <!-- Virtual Keyboard -->
+        <div class="keyboard-container" id="rocketKeyboard">
+          <div class="keyboard-row">
+            ${["q","w","e","r","t","y","u","i","o","p"].map(k => `<button class="key-btn" id="rkey-${k}" onclick="guessRocketLetter('${k}')">${k.toUpperCase()}</button>`).join("")}
+          </div>
+          <div class="keyboard-row">
+            ${["a","s","d","f","g","h","j","k","l"].map(k => `<button class="key-btn" id="rkey-${k}" onclick="guessRocketLetter('${k}')">${k.toUpperCase()}</button>`).join("")}
+          </div>
+          <div class="keyboard-row">
+            ${["z","x","c","v","b","n","m"].map(k => `<button class="key-btn" id="rkey-${k}" onclick="guessRocketLetter('${k}')">${k.toUpperCase()}</button>`).join("")}
+          </div>
+        </div>
+      `;
+
+      updateRocketWordDisplay();
+      setTimeout(() => playCurrentAudio(1.0), 200);
+    }
+
+    function updateRocketWordDisplay() {
+      const wordObj = getCurrentWordObj();
+      if (!wordObj) return;
+
+      const container = document.getElementById("rocketWordDisplay");
+      const target = wordObj.word.toLowerCase();
+      let allRevealed = true;
+
+      container.innerHTML = target.split("").map((ch) => {
+        const isRevealed = guessedLetters.has(ch) || ch === " " || ch === "-";
+        if (!isRevealed) allRevealed = false;
+        return `
+          <div class="letter-cell ${isRevealed ? 'correct' : ''}">
+            ${isRevealed ? ch.toUpperCase() : ""}
+          </div>
+        `;
+      }).join("");
+
+      if (allRevealed) {
+        handleWordSuccess(wordObj);
+      }
+    }
+
+    function guessRocketLetter(letter) {
+      const wordObj = getCurrentWordObj();
+      if (!wordObj || guessedLetters.has(letter) || rocketFuel <= 0) return;
+
+      guessedLetters.add(letter);
+      const target = wordObj.word.toLowerCase();
+      const keyBtn = document.getElementById(`rkey-${letter}`);
+
+      if (target.includes(letter)) {
+        playSfx("correct");
+        if (keyBtn) keyBtn.classList.add("used-hit");
+        updateRocketWordDisplay();
+      } else {
+        playSfx("fuel_loss");
+        if (keyBtn) keyBtn.classList.add("used-miss");
+        rocketFuel--;
+        document.getElementById("fuelCount").innerText = rocketFuel;
+        const pill = document.getElementById(`fuel-${rocketFuel}`);
+        if (pill) pill.classList.add("lost");
+
+        if (rocketFuel <= 0) {
+          showForgivingBanner(getI18nText("rocketEnergyDepleted"), getI18nText("rocketEnergyMsg"), "retry");
+          addTrickyWord(wordObj);
+        }
+      }
+    }
+
+    function revealRocketHint() {
+      const wordObj = getCurrentWordObj();
+      if (!wordObj) return;
+      const target = wordObj.word.toLowerCase();
+      const unrevealed = target.split("").filter(ch => !guessedLetters.has(ch) && ch !== " " && ch !== "-");
+      if (unrevealed.length > 0) {
+        const pick = unrevealed[0];
+        guessRocketLetter(pick);
+      }
+    }
+
+    /* =========================================================
+       8. MODE 3: WORD SCRAMBLE / ANAGRAM (字母重排)
+       ========================================================= */
+    function renderScrambleMode(wordObj) {
+      const rawWord = wordObj.word.toLowerCase();
+      scramblePlaced = [];
+
+      scrambleTiles = rawWord.split("").map((ch, idx) => ({
+        id: idx,
+        letter: ch,
+        placed: false
+      }));
+
+      scrambleTiles.sort(() => Math.random() - 0.5);
+
+      const stage = document.getElementById("stageCard");
+      stage.innerHTML = `
+        <div class="clue-section">
+          <div class="audio-controls">
+            <button class="btn-audio" onclick="playCurrentAudio(1.0)">
+              <span>🔊</span>
+              <span class="bi-inline"><span class="en">Listen</span><span class="zh">听发音</span></span>
+            </button>
+            <button class="btn-secondary" onclick="resetScramble()">
+              <span>🔄</span>
+              <span class="bi-inline"><span class="en">Reset</span><span class="zh">重新排</span></span>
+            </button>
+          </div>
+
+          <div class="word-definition-box">
+            <div class="definition-text">📖 ${wordObj.def || "Arrange the scrambled letters"}</div>
+            ${wordObj.sentence ? `<div class="sentence-text">"${escapeHtml(wordObj.sentence).replace(/_+/g, '_______')}"</div>` : ""}
+          </div>
+        </div>
+
+        <div class="bi-inline" style="font-size:0.9rem; color:var(--text-muted); margin-bottom:8px; font-weight:600;">
+          <span class="en">Click tiles to arrange. Click placed tile to return:</span>
+          <span class="zh">点击字母排入空格，点击已放入的字母可取回：</span>
+        </div>
+        
+        <div class="letter-cells-container" id="scrambleSlots">
+          ${new Array(rawWord.length).fill(0).map((_, i) => `
+            <div class="letter-cell" id="scramble-slot-${i}" onclick="removeScrambleTileAt(${i})"></div>
+          `).join("")}
+        </div>
+
+        <div class="scramble-tiles-area" id="scrambleTilesPool">
+          ${scrambleTiles.map(tile => `
+            <div class="scramble-tile" id="tile-${tile.id}" onclick="placeScrambleTile(${tile.id})">
+              ${tile.letter.toUpperCase()}
+            </div>
+          `).join("")}
+        </div>
+
+        <div class="game-actions-row">
+          <button class="btn-main" onclick="checkScrambleAnswer()">
+            <span>✨</span>
+            <span class="bi-inline">
+              <span class="en">Check Word</span>
+              <span class="zh">检查重排</span>
+            </span>
+          </button>
+        </div>
+      `;
+
+      setTimeout(() => playCurrentAudio(1.0), 200);
+    }
+
+    function placeScrambleTile(tileId) {
+      const tile = scrambleTiles.find(t => t.id === tileId);
+      const wordObj = getCurrentWordObj();
+      if (!tile || tile.placed || !wordObj) return;
+
+      if (scramblePlaced.length < wordObj.word.length) {
+        tile.placed = true;
+        scramblePlaced.push(tile);
+        playSfx("letter");
+        updateScrambleDisplay();
+      }
+    }
+
+    function removeScrambleTileAt(slotIndex) {
+      if (slotIndex >= scramblePlaced.length) return;
+      const tile = scramblePlaced[slotIndex];
+      tile.placed = false;
+      scramblePlaced.splice(slotIndex, 1);
+      playSfx("backspace");
+      updateScrambleDisplay();
+    }
+
+    function resetScramble() {
+      scrambleTiles.forEach(t => t.placed = false);
+      scramblePlaced = [];
+      updateScrambleDisplay();
+      playSfx("click");
+    }
+
+    function updateScrambleDisplay() {
+      const wordObj = getCurrentWordObj();
+      if (!wordObj) return;
+
+      for (let i = 0; i < wordObj.word.length; i++) {
+        const slot = document.getElementById(`scramble-slot-${i}`);
+        if (!slot) continue;
+        if (i < scramblePlaced.length) {
+          slot.innerText = scramblePlaced[i].letter.toUpperCase();
+          slot.classList.add("active");
+        } else {
+          slot.innerText = "";
+          slot.classList.remove("active", "correct", "warn-fix");
+        }
+      }
+
+      scrambleTiles.forEach(tile => {
+        const el = document.getElementById(`tile-${tile.id}`);
+        if (el) {
+          if (tile.placed) {
+            el.classList.add("placed");
+          } else {
+            el.classList.remove("placed");
+          }
+        }
+      });
+    }
+
+    function checkScrambleAnswer() {
+      const wordObj = getCurrentWordObj();
+      if (!wordObj) return;
+
+      if (scramblePlaced.length < wordObj.word.length) {
+        showForgivingBanner(getI18nText("notFinishedTitle"), getI18nText("scrambleIncomplete"), "retry");
+        return;
+      }
+
+      const answer = scramblePlaced.map(t => t.letter).join("").toLowerCase();
+      if (answer === wordObj.word.toLowerCase()) {
+        handleWordSuccess(wordObj);
+      } else {
+        playSfx("almost");
+        showForgivingBanner(getI18nText("almostTitle"), getI18nText("scrambleOrderTypo"), "retry");
+        addTrickyWord(wordObj);
+      }
+    }
+
+    /* =========================================================
+       9. MODE 4: FLASHCARDS (单词速记与闪卡)
+       ========================================================= */
+    let flashcardFlipped = false;
+    function renderFlashcardMode(wordObj) {
+      flashcardFlipped = false;
+      const stage = document.getElementById("stageCard");
+      stage.innerHTML = `
+        <div class="bi-inline" style="font-size:0.9rem; color:var(--text-muted); margin-bottom:12px; font-weight:600;">
+          <span class="en">Click card to flip for definition and example:</span>
+          <span class="zh">点击卡片可翻转查看释义与例句：</span>
+        </div>
+        
+        <div class="flashcard-box" onclick="toggleFlashcardFlip()">
+          <div id="flashcardFront">
+            <div class="flashcard-word">${wordObj.word}</div>
+            <div class="flashcard-syllables">${wordObj.syllables || wordObj.word}</div>
+            <button class="btn-audio" onclick="event.stopPropagation(); speakWord('${wordObj.word}');" style="margin-top:10px;">
+              <span>🔊</span>
+              <span class="bi-inline"><span class="en">Listen</span><span class="zh">听发音</span></span>
+            </button>
+          </div>
+          <div id="flashcardBack" style="display:none;">
+            <div style="font-size:0.85rem; font-weight:800; color:var(--primary); text-transform:uppercase; margin-bottom:6px;">Definition</div>
+            <div class="flashcard-meaning">${wordObj.def || "No definition recorded."}</div>
+            ${wordObj.sentence ? `
+              <div style="font-size:0.85rem; font-weight:800; color:var(--secondary); text-transform:uppercase; margin-top:12px; margin-bottom:4px;">Example Sentence</div>
+              <div class="flashcard-example">"${wordObj.sentence}"</div>
+            ` : ""}
+          </div>
+        </div>
+
+        <div class="game-actions-row" style="margin-top:24px;">
+          <button class="btn-secondary" onclick="prevFlashcard()">
+            <span>⬅️</span>
+            <span class="bi-inline"><span class="en">Previous</span><span class="zh">上一个</span></span>
+          </button>
+          <button class="btn-secondary" onclick="markFlashcardMastered()">
+            <span>🌟</span>
+            <span class="bi-inline"><span class="en">Mastered</span><span class="zh">已熟练掌握</span></span>
+          </button>
+          <button class="btn-main" onclick="nextFlashcard()">
+            <span class="bi-inline"><span class="en">Next</span><span class="zh">下一个</span></span>
+            <span>➡️</span>
+          </button>
+        </div>
+      `;
+    }
+
+    function toggleFlashcardFlip() {
+      flashcardFlipped = !flashcardFlipped;
+      document.getElementById("flashcardFront").style.display = flashcardFlipped ? "none" : "block";
+      document.getElementById("flashcardBack").style.display = flashcardFlipped ? "block" : "none";
+      playSfx("click");
+    }
+
+    function prevFlashcard() {
+      if (currentWordIndex > 0) {
+        currentWordIndex--;
+        renderStage();
+      }
+    }
+
+    function nextFlashcard() {
+      advanceToNextWord();
+    }
+
+    function markFlashcardMastered() {
+      playSfx("correct");
+      starScore++;
+      document.getElementById("starScore").innerText = starScore;
+      saveStorage();
+      advanceToNextWord();
+    }
+
+    /* =========================================================
+       10. TRICKY WORDS (错题弱项本)
+       ========================================================= */
+    function addTrickyWord(wordObj) {
+      if (!trickyWords.some(w => w.word.toLowerCase() === wordObj.word.toLowerCase())) {
+        trickyWords.push({ ...wordObj, errorCount: 1 });
+      } else {
+        const found = trickyWords.find(w => w.word.toLowerCase() === wordObj.word.toLowerCase());
+        if (found) found.errorCount = (found.errorCount || 1) + 1;
+      }
+      saveStorage();
+    }
+
+    function removeTrickyWord(wordStr) {
+      trickyWords = trickyWords.filter(w => w.word.toLowerCase() !== wordStr.toLowerCase());
+      saveStorage();
+    }
+
+    /* =========================================================
+       11. NOTIFICATIONS & BANNERS
+       ========================================================= */
+    function showForgivingBanner(title, msg, type = "retry") {
+      const banner = document.getElementById("forgivingBanner");
+      banner.className = `forgiving-banner ${type}`;
+      document.getElementById("bannerTitle").innerText = title;
+      document.getElementById("bannerMsg").innerText = msg;
+      const icon = document.getElementById("bannerIcon");
+      if (type === "success") icon.innerText = "🎉";
+      else if (type === "revealed") icon.innerText = "💡";
+      else icon.innerText = "🤔";
+      banner.style.display = "flex";
+    }
+
+    function dismissBanner() {
+      const banner = document.getElementById("forgivingBanner");
+      banner.style.display = "none";
+    }
+
+    function showVictoryModal() {
+      playSfx("win");
+      fireMiniConfetti();
+      document.getElementById("roundEarnedStars").innerText = earnedStarsThisRound;
+      document.getElementById("roundMaxStreak").innerText = maxStreakThisRound;
+      
+      const adviceEl = document.getElementById("victoryAdvice");
+      if (trickyWords.length > 0) {
+        adviceEl.innerHTML = `
+          <div class="bi-txt">
+            <span class="en">You have <strong>${trickyWords.length}</strong> words saved in Tricky Words. Practice them anytime!</span>
+            <span class="zh">本组练习中有 <strong>${trickyWords.length}</strong> 个生词放入了错题本，建议切换到【⭐ 错题弱项本】强化巩固！</span>
+          </div>
+        `;
+      } else {
+        adviceEl.innerHTML = `
+          <div class="bi-txt">
+            <span class="en">💯 Perfect score with zero remaining errors! 5th Grade Spelling Champion!</span>
+            <span class="zh">💯 太厉害了！整组单词零失误或全部订正正确，五年级拼写大师非你莫属！</span>
+          </div>
+        `;
+      }
+
+      openModal("victoryModal");
+    }
+
+    /* =========================================================
+       12. MODAL & WORD MANAGER
+       ========================================================= */
+    function openModal(id) {
+      document.getElementById(id).classList.add("open");
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove("open");
+    }
+
+    function openSettings() {
+      openModal("settingsModal");
+    }
+
+    function saveSettings() {
+      appSettings.secondChance = document.getElementById("settingSecondChance").checked;
+      appSettings.undoToast = document.getElementById("settingUndoToast").checked;
+      appSettings.safeEnter = document.getElementById("settingSafeEnter").checked;
+      appSettings.soundSfx = document.getElementById("settingSoundSfx").checked;
+      appSettings.voiceRate = parseFloat(document.getElementById("settingVoiceRate").value) || 1.0;
+      updateSoundIcon();
+      saveStorage();
+    }
+
+    function toggleMute() {
+      appSettings.soundSfx = !appSettings.soundSfx;
+      document.getElementById("settingSoundSfx").checked = appSettings.soundSfx;
+      updateSoundIcon();
+      saveStorage();
+    }
+
+    function updateSoundIcon() {
+      document.getElementById("soundToggleBtn").innerText = appSettings.soundSfx ? "🔊" : "🔇";
+    }
+
+    function changeTheme(themeName) {
+      appSettings.theme = themeName;
+      applyTheme(themeName);
+      saveStorage();
+    }
+
+    function applyTheme(themeName) {
+      if (themeName === "space") {
+        document.documentElement.setAttribute("data-theme", "space");
+      } else {
+        document.documentElement.removeAttribute("data-theme");
+      }
+    }
+
+    function openWordManager() {
+      updateManagerUI();
+      openModal("wordManagerModal");
+    }
+
+    function updateManagerUI() {
+      const list = wordLists.find(l => l.id === currentListId) || wordLists[0];
+      if (!list) return;
+      document.getElementById("managerWordCount").innerText = list.words.length;
+      document.getElementById("managerWordCountZh").innerText = list.words.length;
+      const preview = document.getElementById("managerWordsList");
+      preview.innerHTML = list.words.map(w => `
+        <div class="word-chip">
+          <span>${w.word}</span>
+          ${w.focus ? `<span style="color:#d97706; font-size:0.75rem;">★</span>` : ""}
+          <button onclick="speakWord('${w.word}')" style="background:none; border:none; cursor:pointer;" title="Listen">🔊</button>
+        </div>
+      `).join("");
+    }
+
+    function showAddListForm() {
+      document.getElementById("addListContainer").style.display = "block";
+    }
+
+    function hideAddListForm() {
+      document.getElementById("addListContainer").style.display = "none";
+      document.getElementById("newListName").value = "";
+      document.getElementById("newListWords").value = "";
+    }
+
+    function saveNewWordList() {
+      const name = document.getElementById("newListName").value.trim() || `Custom List (${new Date().toLocaleDateString()})`;
+      const rawText = document.getElementById("newListWords").value.trim();
+      if (!rawText) {
+        alert("Please enter some words first! / 请先输入或粘贴一些单词！");
+        return;
+      }
+
+      const lines = rawText.split(/[\r\n,;]+/);
+      const parsedWords = [];
+
+      lines.forEach(line => {
+        const item = line.trim();
+        if (!item) return;
+
+        const parts = item.split("|").map(p => p.trim());
+        const wordText = parts[0].toLowerCase();
+        if (/^[a-zA-Z\-'\s]+$/.test(wordText) && wordText.length > 1) {
+          parsedWords.push({
+            word: wordText,
+            def: parts[1] || "5th grade spelling vocabulary",
+            sentence: parts[2] || `Remember to spell ${wordText} correctly.`,
+            focus: false,
+            syllables: wordText
+          });
+        }
+      });
+
+      if (parsedWords.length === 0) {
+        alert("No valid English words recognized! / 未识别出有效英文字词，请检查输入！");
+        return;
+      }
+
+      const newList = {
+        id: "custom_" + Date.now(),
+        name: name,
+        words: parsedWords
+      };
+
+      wordLists.unshift(newList);
+      currentListId = newList.id;
+      saveStorage();
+      populateListSelector();
+      hideAddListForm();
+      updateManagerUI();
+      renderStage();
+      playSfx("correct");
+    }
+
+    function exportData() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+        wordLists,
+        trickyWords,
+        starScore
+      }, null, 2));
+      const dlAnchor = document.createElement("a");
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", `SpellingHero_Backup_${new Date().toISOString().slice(0,10)}.json`);
+      dlAnchor.click();
+    }
+
+    /* =========================================================
+       13. CONFETTI ANIMATION
+       ========================================================= */
+    function fireMiniConfetti() {
+      const canvas = document.getElementById("confettiCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const particles = [];
+      const colors = ["#4f46e5", "#06b6d4", "#f59e0b", "#10b981", "#ec4899"];
+
+      for (let i = 0; i < 65; i++) {
+        particles.push({
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2,
+          r: Math.random() * 6 + 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 16,
+          vy: (Math.random() - 0.7) * 16,
+          gravity: 0.4,
+          alpha: 1
+        });
+      }
+
+      let frame = 0;
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += p.gravity;
+          p.alpha -= 0.016;
+
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, p.alpha);
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        });
+
+        frame++;
+        if (frame < 70) {
+          requestAnimationFrame(animate);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+      animate();
+    }
+
+    /* Utilities */
+    function escapeHtml(str) {
+      if (!str) return "";
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function escapeQuote(str) {
+      if (!str) return "";
+      return str.replace(/'/g, "\\'");
+    }
+
+    // Launch
+    window.onload = initApp;
+  </script>
+</body>
+</html>
