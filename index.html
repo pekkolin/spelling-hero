@@ -1776,8 +1776,24 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
        ========================================================= */
     const DEFAULT_WORD_LISTS = [
       {
+        id: "unit1_week6",
+        name: "🌟 Unit 1 Week 6: Vowel Teams (Current HW / 本周作业)",
+        words: [
+          { word: "waitress", def: "a woman who serves food and drinks to customers at tables in a restaurant", sentence: "The friendly _____ brought warm bread and glasses of ice water to our table.", focus: false, syllables: "wai-tress" },
+          { word: "tiptoe", def: "to walk quietly and carefully on the tips of one's toes", sentence: "We had to _____ through the hallway so we would not wake the sleeping baby.", focus: false, syllables: "tip-toe" },
+          { word: "delight", def: "great pleasure, joy, or satisfaction", sentence: "To her pure _____, she discovered a hidden puppy waiting under the Christmas tree.", focus: true, syllables: "de-light" },
+          { word: "dismay", def: "a sudden feeling of distress, disappointment, or discouragement", sentence: "Much to our _____, dark storm clouds cancelled our afternoon soccer game.", focus: true, syllables: "dis-may" },
+          { word: "indeed", def: "truly, certainly, or without any doubt", sentence: "It was _____ a very cold winter night with snow piling high outside.", focus: false, syllables: "in-deed" },
+          { word: "coastline", def: "the outline or boundary of a coast where the land meets the ocean", sentence: "From the airplane window, we could see the rugged rocky _____ stretching for miles.", focus: true, syllables: "coast-line" },
+          { word: "untie", def: "to undo, loosen, or unfasten a knot or something bound together", sentence: "Remember to carefully _____ your sneaker laces before taking off your shoes.", focus: false, syllables: "un-tie" },
+          { word: "widespread", def: "found or distributed over a large area or among many people", sentence: "The heavy thunderstorm caused _____ power outages across the entire county.", focus: true, syllables: "wide-spread" },
+          { word: "download", def: "to copy or transfer data or files from the internet onto a computer or tablet", sentence: "It took only a few seconds to _____ the new audio book onto his tablet.", focus: false, syllables: "down-load" },
+          { word: "foolish", def: "lacking good sense or judgment; unwise or silly", sentence: "It would be _____ to go hiking up the mountain without carrying any water.", focus: true, syllables: "fool-ish" }
+        ]
+      },
+      {
         id: "unit1_week5",
-        name: "🌟 Unit 1 Week 5: -le Syllables (Current HW / 本周作业)",
+        name: "Unit 1 Week 5: -le Syllables",
         words: [
           { word: "grumble", def: "to complain quietly about something in an unhappy or bad-tempered way", sentence: "He began to _____ when asked to clean up his room.", focus: true, syllables: "grum-ble" },
           { word: "dawdle", def: "to waste time, move slowly, or take more time than necessary", sentence: "Don't _____ on your way to school or you will be late.", focus: true, syllables: "daw-dle" },
@@ -1861,7 +1877,7 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
        2. STATE & AUDIO SYNTHESIZER
        ========================================================= */
     let currentMode = "type"; // 'type' | 'rocket' | 'scramble' | 'flashcard' | 'tricky'
-    let currentListId = "unit1_week5";
+    let currentListId = "unit1_week6";
     let wordLists = [];
     let trickyWords = []; // Mistake notebook
     let currentWordIndex = 0;
@@ -2108,19 +2124,14 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
         wordLists = [...DEFAULT_WORD_LISTS];
       }
 
-      // Ensure all standard weekly lists (e.g. newly added Week 5) exist and update
-      DEFAULT_WORD_LISTS.forEach(defList => {
-        const existingIdx = wordLists.findIndex(l => l.id === defList.id);
-        if (existingIdx === -1) {
-          wordLists.unshift(defList);
-        } else {
-          // Keep default definitions & sentences up to date
-          wordLists[existingIdx] = defList;
-        }
-      });
+      // Ensure all standard weekly lists (e.g. newly added Week 6) exist, stay up-to-date, and keep in canonical order
+      const customLists = wordLists.filter(l => !DEFAULT_WORD_LISTS.some(d => d.id === l.id));
+      wordLists = [...DEFAULT_WORD_LISTS, ...customLists];
 
-      // Default selection to Week 5 if available
-      if (wordLists.some(l => l.id === "unit1_week5")) {
+      // Default selection to Week 6 if available
+      if (wordLists.some(l => l.id === "unit1_week6")) {
+        currentListId = "unit1_week6";
+      } else if (wordLists.some(l => l.id === "unit1_week5")) {
         currentListId = "unit1_week5";
       }
 
