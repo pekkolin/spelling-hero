@@ -1776,8 +1776,24 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
        ========================================================= */
     const DEFAULT_WORD_LISTS = [
       {
+        id: "unit1_week7",
+        name: "🌟 Unit 1 Week 7: r-Controlled Vowels (Current HW / 本周作业)",
+        words: [
+          { word: "disarm", def: "to take away weapons from someone, or to reduce tension and make people feel friendly", sentence: "Her warm and friendly smile helped to _____ the angry customer.", focus: false, syllables: "dis-arm" },
+          { word: "curate", def: "to select, organize, and care for items in a collection or museum exhibition", sentence: "The museum expert was asked to _____ the new display of dinosaur fossils.", focus: true, syllables: "cu-rate" },
+          { word: "charger", def: "a device used for putting energy into a rechargeable battery, or a horse ridden in battle", sentence: "Don't forget to plug your laptop into the _____ before the battery runs out.", focus: false, syllables: "char-ger" },
+          { word: "surplus", def: "an amount of something that is more than what is needed or used; excess", sentence: "The farmer donated his _____ harvest of apples to the local food bank.", focus: true, syllables: "sur-plus" },
+          { word: "disturb", def: "to interrupt the quiet, peace, or rest of someone or something", sentence: "Please close the door gently so you don't _____ your brother while he is studying.", focus: false, syllables: "dis-turb" },
+          { word: "stormy", def: "having strong winds, heavy rain, or rough weather conditions", sentence: "The captain steered the ship safely into the harbor on a _____ night.", focus: false, syllables: "stor-my" },
+          { word: "sarcastic", def: "using words that mean the opposite of what you really want to say, often in an ironic or sharp way", sentence: "When he said 'What lovely weather!' during the rainstorm, he was being _____.", focus: true, syllables: "sar-cas-tic" },
+          { word: "imposter", def: "a person who pretends to be someone else in order to deceive or trick others", sentence: "The sneaky guard discovered that the visitor was an _____ wearing a disguise.", focus: true, syllables: "im-pos-ter" },
+          { word: "argument", def: "a disagreement or debate between people, or a set of reasons given to persuade others", sentence: "The two friends settled their _____ by taking turns with the board game.", focus: true, syllables: "ar-gu-ment" },
+          { word: "curfew", def: "a rule or order requiring people to be indoors or at home by a specific time at night", sentence: "The summer camp set an evening _____ of nine o'clock for all campers.", focus: true, syllables: "cur-few" }
+        ]
+      },
+      {
         id: "unit1_week6",
-        name: "🌟 Unit 1 Week 6: Vowel Teams (Current HW / 本周作业)",
+        name: "Unit 1 Week 6: Vowel Teams",
         words: [
           { word: "waitress", def: "a woman who serves food and drinks to customers at tables in a restaurant", sentence: "The friendly _____ brought warm bread and glasses of ice water to our table.", focus: false, syllables: "wai-tress" },
           { word: "tiptoe", def: "to walk quietly and carefully on the tips of one's toes", sentence: "We had to _____ through the hallway so we would not wake the sleeping baby.", focus: false, syllables: "tip-toe" },
@@ -1877,7 +1893,7 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
        2. STATE & AUDIO SYNTHESIZER
        ========================================================= */
     let currentMode = "type"; // 'type' | 'rocket' | 'scramble' | 'flashcard' | 'tricky'
-    let currentListId = "unit1_week6";
+    let currentListId = "unit1_week7";
     let wordLists = [];
     let trickyWords = []; // Mistake notebook
     let currentWordIndex = 0;
@@ -2124,12 +2140,14 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
         wordLists = [...DEFAULT_WORD_LISTS];
       }
 
-      // Ensure all standard weekly lists (e.g. newly added Week 6) exist, stay up-to-date, and keep in canonical order
+      // Ensure all standard weekly lists (e.g. newly added Week 7) exist, stay up-to-date, and keep in canonical order
       const customLists = wordLists.filter(l => !DEFAULT_WORD_LISTS.some(d => d.id === l.id));
       wordLists = [...DEFAULT_WORD_LISTS, ...customLists];
 
-      // Default selection to Week 6 if available
-      if (wordLists.some(l => l.id === "unit1_week6")) {
+      // Default selection to Week 7 if available
+      if (wordLists.some(l => l.id === "unit1_week7")) {
+        currentListId = "unit1_week7";
+      } else if (wordLists.some(l => l.id === "unit1_week6")) {
         currentListId = "unit1_week6";
       } else if (wordLists.some(l => l.id === "unit1_week5")) {
         currentListId = "unit1_week5";
