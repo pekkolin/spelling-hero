@@ -1776,8 +1776,24 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
        ========================================================= */
     const DEFAULT_WORD_LISTS = [
       {
+        id: "unit2_week1",
+        name: "🌟 Unit 2 Week 1: Prefixes ir-, il- (Current HW / 本周作业)",
+        words: [
+          { word: "irreparable", def: "impossible to repair, fix, or make right again", sentence: "The flood caused _____ damage to the antique wooden table.", focus: true, syllables: "ir-rep-a-ra-ble" },
+          { word: "irrelevant", def: "not related to or not important to the subject being discussed", sentence: "Her question about ice cream was completely _____ during the science lesson.", focus: false, syllables: "ir-rel-e-vant" },
+          { word: "irresistible", def: "too attractive, tempting, or pleasing to be resisted", sentence: "The smell of freshly baked chocolate chip cookies was completely _____.", focus: true, syllables: "ir-re-sist-i-ble" },
+          { word: "irresponsible", def: "not showing good judgment or not caring about consequences", sentence: "It was _____ to leave the front door wide open when leaving home.", focus: true, syllables: "ir-re-spon-si-ble" },
+          { word: "illogical", def: "not making good sense or not based on clear reason", sentence: "Wearing a heavy winter coat to the sunny beach seemed totally _____.", focus: false, syllables: "il-log-i-cal" },
+          { word: "illiterate", def: "unable to read or write", sentence: "Long ago, many people were _____ because there were very few schools.", focus: true, syllables: "il-lit-er-ate" },
+          { word: "illegal", def: "against the law or not allowed by official rules", sentence: "It is _____ to park your car in front of a fire hydrant.", focus: false, syllables: "il-le-gal" },
+          { word: "illegible", def: "not clear enough to be read; messy or sloppy handwriting", sentence: "The teacher asked him to rewrite his paragraph because his handwriting was _____.", focus: true, syllables: "il-leg-i-ble" },
+          { word: "illuminate", def: "to light up, brighten with light, or make something clear and easy to understand", sentence: "Hundreds of colorful lanterns were lit to _____ the city park at night.", focus: true, syllables: "il-lu-mi-nate" },
+          { word: "illustrious", def: "well known, admired, and respected for great achievements; famous", sentence: "The scientist had an _____ career and won many major awards.", focus: true, syllables: "il-lus-tri-ous" }
+        ]
+      },
+      {
         id: "unit1_week7",
-        name: "🌟 Unit 1 Week 7: r-Controlled Vowels (Current HW / 本周作业)",
+        name: "Unit 1 Week 7: r-Controlled Vowels",
         words: [
           { word: "disarm", def: "to take away weapons from someone, or to reduce tension and make people feel friendly", sentence: "Her warm and friendly smile helped to _____ the angry customer.", focus: false, syllables: "dis-arm" },
           { word: "curate", def: "to select, organize, and care for items in a collection or museum exhibition", sentence: "The museum expert was asked to _____ the new display of dinosaur fossils.", focus: true, syllables: "cu-rate" },
@@ -1893,7 +1909,7 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
        2. STATE & AUDIO SYNTHESIZER
        ========================================================= */
     let currentMode = "type"; // 'type' | 'rocket' | 'scramble' | 'flashcard' | 'tricky'
-    let currentListId = "unit1_week7";
+    let currentListId = "unit2_week1";
     let wordLists = [];
     let trickyWords = []; // Mistake notebook
     let currentWordIndex = 0;
@@ -2140,12 +2156,14 @@ senile" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:
         wordLists = [...DEFAULT_WORD_LISTS];
       }
 
-      // Ensure all standard weekly lists (e.g. newly added Week 7) exist, stay up-to-date, and keep in canonical order
+      // Ensure all standard weekly lists (e.g. newly added Unit 2 Week 1) exist, stay up-to-date, and keep in canonical order
       const customLists = wordLists.filter(l => !DEFAULT_WORD_LISTS.some(d => d.id === l.id));
       wordLists = [...DEFAULT_WORD_LISTS, ...customLists];
 
-      // Default selection to Week 7 if available
-      if (wordLists.some(l => l.id === "unit1_week7")) {
+      // Default selection to Unit 2 Week 1 if available
+      if (wordLists.some(l => l.id === "unit2_week1")) {
+        currentListId = "unit2_week1";
+      } else if (wordLists.some(l => l.id === "unit1_week7")) {
         currentListId = "unit1_week7";
       } else if (wordLists.some(l => l.id === "unit1_week6")) {
         currentListId = "unit1_week6";
